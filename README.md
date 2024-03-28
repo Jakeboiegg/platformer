@@ -5,4 +5,5 @@ hii this just a simple platformer in pygame
 
 ## Controls
 Arrow keys to move
+
 Space to jump
