@@ -12,6 +12,16 @@ class Colour:
         self.lavender = (183, 189, 248)
 
 
+class Images:
+    def __init__(self):
+        self.left = pygame.image.load("images/left.png").convert_alpha()
+        self.left_jump = pygame.image.load("images/left_jump.png").convert_alpha()
+        self.right = pygame.image.load("images/right.png").convert_alpha()
+        self.right_jump = pygame.image.load("images/right_jump.png").convert_alpha()
+        self.idle = pygame.image.load("images/idle.png").convert_alpha()
+        self.idle_jump = pygame.image.load("images/idle_jump.png").convert_alpha()
+
+
 class Player:
     def __init__(self):
         self.x = (screen_width // 2) - 25
@@ -32,7 +42,32 @@ class Player:
         self.jump_count = 0
 
     def draw(self, screen):
-        pygame.draw.rect(screen, colour.red, (self.x, self.y, self.width, self.height))
+        facing = "idle"
+        if self.velocity == 0:
+            facing = "idle"
+        elif self.velocity < 0:
+            facing = "left"
+        elif self.velocity > 0:
+            facing = "right"
+
+        image = images.idle
+        if facing == "idle" and not self.is_jump:
+            image = images.idle
+        elif facing == "idle" and self.is_jump:
+            image = images.idle_jump
+
+        elif facing == "left" and not self.is_jump:
+            image = images.left
+        elif facing == "left" and self.is_jump:
+            image = images.left_jump
+
+        elif facing == "right" and not self.is_jump:
+            image = images.right
+        elif facing == "right" and self.is_jump:
+            image = images.right_jump
+
+        rect = pygame.rect.Rect((self.x, self.y, 60, 60))
+        screen.blit(image, rect)
 
     def move(self, direction):
         # move left / right
@@ -121,6 +156,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Basic Platformer")
 
 colour = Colour()
+images = Images()
 floor = Floor(screen_width, screen_height, 30)
 player = Player()
 platforms = [
@@ -145,7 +181,7 @@ def updateScreen():
 
 
 def floorCollision():
-    if player.y + player.height >= screen_height - floor.height:
+    if onFloor():
         player.y = screen_height - floor.height - player.height
 
 
