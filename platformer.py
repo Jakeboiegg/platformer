@@ -1,4 +1,5 @@
 import pygame
+import level_formats
 
 pygame.init()
 
@@ -23,9 +24,9 @@ class Images:
 
 
 class Player:
-    def __init__(self):
-        self.x = (screen_width // 2) - 25
-        self.y = (screen_height // 2) - 25
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
         self.width = 60
         self.height = 60
 
@@ -141,7 +142,7 @@ class Platform:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.width = 150
+        self.width = 30
         self.height = 10
 
     def draw(self, screen):
@@ -158,12 +159,22 @@ pygame.display.set_caption("Basic Platformer")
 colour = Colour()
 images = Images()
 floor = Floor(screen_width, screen_height, 30)
-player = Player()
-platforms = [
-    Platform(80, 470),
-    Platform(325, 420),
-    Platform(570, 470),
-]
+
+player = None
+platforms = []  # 40 x 15 , 800 x 600, 1 = 20, 1 = 30
+o_count = 0
+for row_number, row in enumerate(level_formats.level0):
+    for column_number, editor_chr in list(enumerate(row)):
+        if editor_chr == "o":
+            player = Player(column_number * 20, row_number * 40)
+            o_count += 1
+        if editor_chr == "x":
+            platforms.append(Platform(column_number * 20, row_number * 40))
+if o_count != 1:
+    print("""
+    invalid character placement
+    """)
+
 font = pygame.font.Font(None, 36)
 
 clock = pygame.time.Clock()
