@@ -160,20 +160,26 @@ colour = Colour()
 images = Images()
 floor = Floor(screen_width, screen_height, 30)
 
-player = None
 platforms = []  # 40 x 15 , 800 x 600, 1 = 20, 1 = 30
 o_count = 0
+player_initial_position = []
+
 for row_number, row in enumerate(level_formats.level0):
     for column_number, editor_chr in list(enumerate(row)):
         if editor_chr == "o":
-            player = Player(column_number * 20, row_number * 40)
             o_count += 1
+            player_initial_position.append(column_number)
+            player_initial_position.append(row_number)
         if editor_chr == "x":
             platforms.append(Platform(column_number * 20, row_number * 40))
-if o_count != 1:
+if o_count == 1:
+    player = Player(player_initial_position[0] * 20, player_initial_position[1] * 40)
+else:
     print("""
     invalid character placement
     """)
+    player = Player(screen_width / 2, 0)
+    player.x -= player.width / 2
 
 font = pygame.font.Font(None, 36)
 
