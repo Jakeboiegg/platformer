@@ -11,6 +11,7 @@ class Colour:
         self.sky = (145, 215, 227)
         self.red = (237, 135, 150)
         self.lavender = (183, 189, 248)
+        self.level_text = (73, 77, 100)
 
 
 class Images:
@@ -181,7 +182,9 @@ else:
     player = Player(screen_width / 2, 0)
     player.x -= player.width / 2
 
-font = pygame.font.Font(None, 36)
+level_font = pygame.font.Font("Rubik.ttf", 300)
+level_text_surface = level_font.render("0", True, colour.level_text)
+level_text_rect = level_text_surface.get_rect()
 
 clock = pygame.time.Clock()
 FPS = 60
@@ -189,8 +192,15 @@ FPS = 60
 
 def updateScreen():
     screen.fill(colour.background)
-    player.draw(screen)
+    screen.blit(
+        level_text_surface,
+        (
+            (screen_width / 2) - (level_text_rect.width / 2),
+            (screen_height / 2) - (level_text_rect.height / 2),
+        ),
+    )
     floor.draw(screen)
+    player.draw(screen)
     for platform in platforms:
         platform.draw(screen)
     pygame.display.flip()
@@ -242,28 +252,36 @@ def onPlatform():
     return False
 
 
-running = True
-while running:
-    clock.tick(FPS)
-    player.bottom = {"x": player.x + (player.width / 2), "y": player.y + player.height}
+def main():
+    running = True
+    while running:
+        clock.tick(FPS)
+        player.bottom = {
+            "x": player.x + (player.width / 2),
+            "y": player.y + player.height,
+        }
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_SPACE] and not player.is_jump and (onFloor() or onPlatform()):
-        player.is_jump = True
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE] and not player.is_jump and (onFloor() or onPlatform()):
+            player.is_jump = True
 
-    if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-        player.move("left")
-    elif keys[pygame.K_RIGHT] or keys[pygame.K_e]:
-        player.move("right")
-    else:
-        player.move("no_input")
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            player.move("left")
+        elif keys[pygame.K_RIGHT] or keys[pygame.K_e]:
+            player.move("right")
+        else:
+            player.move("no_input")
 
-    floorCollision()
-    platformCollision()
-    updateScreen()
+        floorCollision()
+        platformCollision()
+        updateScreen()
 
-pygame.quit()
+    pygame.quit()
+
+
+if __name__ == "__main__":
+    main()
