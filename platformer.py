@@ -73,6 +73,11 @@ class Player:
         screen.blit(image, rect)
 
     def move(self, direction):
+        self.bottom = {
+            "x": player.x + (player.width / 2),
+            "y": player.y + player.height,
+        }
+
         # move left / right
         if direction == "left":
             self.velocity -= player.acceleration
@@ -215,7 +220,7 @@ else:
     objective.x -= objective.width / 2
 
 level_font = pygame.font.Font("Rubik.ttf", 300)
-level_text_surface = level_font.render("0", True, colour.level_text)
+level_text_surface = level_font.render("1", True, colour.level_text)
 level_text_rect = level_text_surface.get_rect()
 
 clock = pygame.time.Clock()
@@ -289,10 +294,6 @@ def main():
     running = True
     while running:
         clock.tick(FPS)
-        player.bottom = {
-            "x": player.x + (player.width / 2),
-            "y": player.y + player.height,
-        }
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
