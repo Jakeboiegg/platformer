@@ -69,7 +69,7 @@ class Player:
         elif facing == "right" and self.is_jump:
             image = images.right_jump
 
-        rect = pygame.rect.Rect((self.x, self.y, 60, 60))
+        rect = pygame.rect.Rect((self.x, self.y, self.width, self.height))
         screen.blit(image, rect)
 
     def move(self, direction):
@@ -223,12 +223,8 @@ level_font = pygame.font.Font("Rubik.ttf", 300)
 level_text_surface = level_font.render("1", True, colour.level_text)
 level_text_rect = level_text_surface.get_rect()
 
-clock = pygame.time.Clock()
-FPS = 60
 
-
-def updateScreen():
-    screen.fill(colour.background)
+def level_text_draw():
     screen.blit(
         level_text_surface,
         (
@@ -236,11 +232,25 @@ def updateScreen():
             (screen_height / 2) - (level_text_rect.height / 2),
         ),
     )
+
+
+clock = pygame.time.Clock()
+FPS = 60
+
+
+def platform_draw():
+    for platform in platforms:
+        platform.draw(screen)
+
+
+def updateScreen():
+    screen.fill(colour.background)
+    level_text_draw()
     floor.draw(screen)
     objective.draw(screen)
     player.draw(screen)
-    for platform in platforms:
-        platform.draw(screen)
+    platform_draw()
+
     pygame.display.flip()
     pygame.display.update()
 
@@ -312,6 +322,16 @@ def main():
 
         floorCollision()
         platformCollision()
+
+        player_rect = pygame.rect.Rect(
+            (player.x, player.y, player.width, player.height)
+        )
+        objective_rect = pygame.rect.Rect(
+            (objective.x, objective.y, objective.width, objective.height)
+        )
+        if player_rect.colliderect(objective_rect):
+            print("    touching")
+
         updateScreen()
 
     pygame.quit()
