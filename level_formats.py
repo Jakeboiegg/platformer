@@ -23,7 +23,7 @@ empty = [
 # 40 x 20 , 800 x 600, 1 = 20, 1 = 30
 level1 = [
     "                                        ",
-    "                                        ",
+    "                              e         ",
     "                                        ",
     "             xxxxxxxxxxxxxxxxxxxx       ",
     "                                        ",

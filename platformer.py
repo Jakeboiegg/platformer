@@ -10,6 +10,7 @@ class Colour:
         self.white = (202, 211, 245)
         self.sky = (145, 215, 227)
         self.red = (237, 135, 150)
+        self.green = (166, 218, 149)
         self.lavender = (183, 189, 248)
         self.level_text = (73, 77, 100)
 
@@ -152,6 +153,19 @@ class Platform:
         )
 
 
+class Objective:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.height = 60
+        self.width = 60
+
+    def draw(self, screen):
+        pygame.draw.rect(
+            screen, colour.green, (self.x, self.y, self.width, self.height)
+        )
+
+
 screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -164,6 +178,8 @@ floor = Floor(screen_width, screen_height, 30)
 platforms = []  # 40 x 15 , 800 x 600, 1 = 20, 1 = 30
 o_count = 0
 player_initial_position = []
+e_count = 0
+objective_initial_position = []
 
 for row_number, row in enumerate(level_formats.level1):
     for column_number, editor_chr in list(enumerate(row)):
@@ -173,6 +189,11 @@ for row_number, row in enumerate(level_formats.level1):
             player_initial_position.append(row_number)
         if editor_chr == "x":
             platforms.append(Platform(column_number * 20, row_number * 40))
+        if editor_chr == "e":
+            e_count += 1
+            objective_initial_position.append(column_number)
+            objective_initial_position.append(row_number)
+
 if o_count == 1:
     player = Player(player_initial_position[0] * 20, player_initial_position[1] * 40)
 else:
@@ -181,6 +202,17 @@ else:
     """)
     player = Player(screen_width / 2, 0)
     player.x -= player.width / 2
+
+if e_count == 1:
+    objective = Objective(
+        objective_initial_position[0] * 20, objective_initial_position[1] * 40
+    )
+else:
+    print("""
+    invalid objective placement
+    """)
+    objective = Objective(screen_width / 2, screen_height - floor.height)
+    objective.x -= objective.width / 2
 
 level_font = pygame.font.Font("Rubik.ttf", 300)
 level_text_surface = level_font.render("0", True, colour.level_text)
@@ -200,6 +232,7 @@ def updateScreen():
         ),
     )
     floor.draw(screen)
+    objective.draw(screen)
     player.draw(screen)
     for platform in platforms:
         platform.draw(screen)
