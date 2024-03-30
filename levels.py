@@ -51,3 +51,4 @@ stairs = [
     "                           xxxxxxxx     ",
     "                                        ",
 ]
+levels = {1: {"format": tutorial}, 2: {"format": stairs}}
