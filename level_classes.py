@@ -1,14 +1,3 @@
 import level_formats
 
-
-class Tutorial:
-    def __init__(self):
-        self.format = level_formats.tutorial
-
-
-tutorial = Tutorial
-
-
-class Stairs:
-    def __init__(self):
-        self.format = level_formats.stairs
+levels = {1: {"format": level_formats.tutorial}, 2: {"format": level_formats.stairs}}
