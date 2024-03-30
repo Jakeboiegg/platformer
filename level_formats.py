@@ -14,14 +14,9 @@ empty = [
     "                                        ",
     "                                        ",
     "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
 ]
-# 40 x 20 , 800 x 600, 1 = 20, 1 = 30
-level1 = [
+# 40 x 15 , 800 x 600, 1 = 20, 1 = 30
+tutorial = [
     "                                        ",
     "                              e         ",
     "                                        ",
@@ -36,5 +31,23 @@ level1 = [
     "      o      xxxxxxxxx                  ",
     "                                        ",
     "    xxxxxx                              ",
+    "                                        ",
+]
+
+stairs = [
+    "                                        ",
+    "                                        ",
+    "               e                        ",
+    "                                        ",
+    "             xxxxxxxxxxxxxxxx           ",
+    "                                        ",
+    "                               xxxxx    ",
+    "                                        ",
+    "                    xxxxxxxx            ",
+    "                                        ",
+    "      xxxxxxxxx                         ",
+    "                               o        ",
+    "                  xxxxxx                ",
+    "                           xxxxxxxx     ",
     "                                        ",
 ]
