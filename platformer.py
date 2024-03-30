@@ -165,7 +165,7 @@ platforms = []  # 40 x 15 , 800 x 600, 1 = 20, 1 = 30
 o_count = 0
 player_initial_position = []
 
-for row_number, row in enumerate(level_formats.level0):
+for row_number, row in enumerate(level_formats.level1):
     for column_number, editor_chr in list(enumerate(row)):
         if editor_chr == "o":
             o_count += 1
