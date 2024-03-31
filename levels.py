@@ -15,8 +15,25 @@ empty = [
     "                                        ",
     "                                        ",
 ]
-# 40 x 15 , 800 x 600, 1 = 20, 1 = 30
 tutorial = [
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                   e    ",
+    "                                        ",
+    "                              xxxxxxxx  ",
+    "                    xxxxxxx             ",
+    "         xxxxxxx                        ",
+    "    o                                   ",
+    "                                        ",
+]
+stairs1 = [
+    "                                        ",
     "                                        ",
     "                              e         ",
     "                                        ",
@@ -25,7 +42,6 @@ tutorial = [
     "    xxxxxx                              ",
     "                                        ",
     "             xxxxxxxx                   ",
-    "                                        ",
     "                        xxxxxxxxx       ",
     "                                        ",
     "      o      xxxxxxxxx                  ",
@@ -34,7 +50,7 @@ tutorial = [
     "                                        ",
 ]
 
-stairs = [
+stairs2 = [
     "                                        ",
     "                                        ",
     "               e                        ",
@@ -51,4 +67,9 @@ stairs = [
     "                           xxxxxxxx     ",
     "                                        ",
 ]
-levels = {1: {"format": tutorial}, 2: {"format": stairs}}
+levels = {
+    1: {"format": tutorial},
+    2: {"format": stairs1},
+    3: {"format": stairs2},
+    4: {"format": empty},
+}

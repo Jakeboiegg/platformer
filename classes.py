@@ -152,6 +152,8 @@ class Objective:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.initialx = x
+        self.initialy = y
         self.height = 60
         self.width = 60
 

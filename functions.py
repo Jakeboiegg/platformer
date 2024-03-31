@@ -1,11 +1,15 @@
 import pygame
-from levels import levels
+import math
+import levels
 from classes import Platform
 
 pygame.init()
 
+levels = levels.levels
+
 
 def init_player_position(level):
+    global levels
     o_count = 0
     player_initial_position = []
 
@@ -19,12 +23,14 @@ def init_player_position(level):
     if o_count == 1:
         return player_initial_position
     else:
-        return []
+        return [0, -300]
 
 
 def init_objective_position(level):
+    global levels
     e_count = 0
     objective_initial_position = []
+
     for row_number, row in enumerate(levels[level]["format"]):
         for column_number, editor_chr in list(enumerate(row)):
             if editor_chr == "e":
@@ -35,11 +41,13 @@ def init_objective_position(level):
     if e_count == 1:
         return objective_initial_position
     else:
-        return []
+        return [0, -500]
 
 
 def init_platforms_position(level):
+    global levels
     platforms = []
+
     for row_number, row in enumerate(levels[level]["format"]):
         for column_number, editor_chr in list(enumerate(row)):
             if editor_chr == "x":
@@ -109,3 +117,8 @@ def touchingObective(player, objective):
         return True
     else:
         return False
+
+
+def vibrate(objective, time):
+    offset = 5 * math.sin(time / 15)
+    objective.y = objective.initialy + offset

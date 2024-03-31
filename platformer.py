@@ -10,6 +10,7 @@ from functions import (
     platformCollision,
     onPlatform,
     touchingObective,
+    vibrate,
 )
 
 pygame.init()
@@ -24,6 +25,7 @@ colour = Colour()
 images = Images()
 floor = Floor(screen_dimensions.width, screen_dimensions.height, 30)
 
+time = 0
 clock = pygame.time.Clock()
 FPS = 60
 
@@ -32,8 +34,8 @@ change_level = True
 level_font = pygame.font.Font("Rubik.ttf", 300)
 
 platforms = []
-player = Player(500, 0)  # to not make the player touch the objective
-objective = Objective(0, 0)
+player = Player(0, -500)  # to not make the player touch the objective
+objective = Objective(0, -300)
 
 
 def updateLevel():
@@ -46,6 +48,8 @@ def updateLevel():
 
     objective.x = objective_position[0]
     objective.y = objective_position[1]
+    objective.initialx = objective_position[0]
+    objective.initialy = objective_position[1]
 
     platforms = init_platforms_position(level)
 
@@ -81,9 +85,10 @@ def updateScreen():
 
 def main():
     running = True
-    global change_level, level, platforms
+    global change_level, level, platforms, time
     while running:
         clock.tick(FPS)
+        time += 1
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -116,6 +121,8 @@ def main():
         floorCollision(player, floor, screen_dimensions)
         keepInWindow(player, screen_dimensions)
         platformCollision(platforms, player)
+
+        vibrate(objective, time)
 
         touching_objective = touchingObective(player, objective)
         if touching_objective:
