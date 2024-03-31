@@ -136,28 +136,6 @@ def level_text_draw(number):
     )
 
 
-def end_time_text_draw(number):
-    number = int(number)
-
-    minutes = time // 3600
-    seconds = (time // 60) - (minutes * 60)
-
-    if seconds < 10:
-        time_formatted = f"{minutes}:0{seconds}"
-    else:
-        time_formatted = f"{minutes}:{seconds}"
-
-    time_text_surface = time_font.render(time_formatted, True, colour.level_text)
-    time_text_rect = time_text_surface.get_rect()
-    screen.blit(
-        time_text_surface,
-        (
-            (screen_dimensions.width / 2) - (time_text_rect.width / 2),
-            (screen_dimensions.height / 2) - (time_text_rect.height / 2),
-        ),
-    )
-
-
 def platform_draw():
     for platform in platforms:
         platform.draw(screen, colour)
