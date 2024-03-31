@@ -49,7 +49,6 @@ stairs1 = [
     "    xxxxxx                              ",
     "                                        ",
 ]
-
 stairs2 = [
     "                                        ",
     "                                        ",
@@ -67,7 +66,6 @@ stairs2 = [
     "                           xxxxxxxx     ",
     "                                        ",
 ]
-
 jump1 = [
     "                                        ",
     "                                        ",
@@ -134,6 +132,23 @@ runup1 = [
     "                         xxxxx          ",
     "   o              xxxxx                 ",
     "           xxxxx                        ",
+    "                                        ",
+]
+runup2 = [
+    "                                        ",
+    "                 e                      ",
+    "                                        ",
+    "          xxxxxxxxxxxxxxxxxxxxx         ",
+    "                                        ",
+    "                                   xx   ",
+    "     o                    xx            ",
+    "                xx                      ",
+    "   xxxxx                                ",
+    "                                        ",
+    "   xxxxx                                ",
+    "                                        ",
+    "   xxxxx                                ",
+    "                                        ",
     "                                        ",
 ]
 end = [

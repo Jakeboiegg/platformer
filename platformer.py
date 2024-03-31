@@ -9,7 +9,17 @@ from functions import (
     touchingObective,
     vibrate,
 )
-from levels import tutorial, stairs1, stairs2, jump1, jump2, jump3, runup1, end
+from levels import (
+    tutorial,
+    stairs1,
+    stairs2,
+    jump1,
+    jump2,
+    jump3,
+    runup1,
+    runup2,
+    end,
+)
 
 pygame.init()
 
@@ -46,7 +56,8 @@ levels = {
     5: {"format": jump2, "image": images.cube},
     6: {"format": jump3, "image": images.cube},
     7: {"format": runup1, "image": images.calculator},
-    8: {"format": end, "image": images.calculator},
+    8: {"format": runup2, "image": images.calculator},
+    9: {"format": end, "image": images.calculator},
 }
 
 
