@@ -116,7 +116,10 @@ def updateScreen():
     global short
     screen.fill(colour.background)
 
-    level_text_draw(level)
+    if not end(level):
+        level_text_draw(level)
+    elif end(level):
+        level_text_draw("end")
     time_draw(time)
 
     floor.draw(screen, screen_dimensions, colour)
