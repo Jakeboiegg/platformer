@@ -9,7 +9,7 @@ from functions import (
     touchingObective,
     vibrate,
 )
-from levels import tutorial, stairs1, stairs2, jump1, jump2, end
+from levels import tutorial, stairs1, stairs2, jump1, jump2, jump3, runup1, end
 
 pygame.init()
 
@@ -17,7 +17,7 @@ pygame.init()
 # initialise screen
 screen_dimensions = Screen()
 screen = pygame.display.set_mode((screen_dimensions.width, screen_dimensions.height))
-pygame.display.set_caption("Basic Platformer")
+pygame.display.set_caption("Belvis go jumpy wooo")
 
 colour = Colour()
 images = Images()
@@ -44,7 +44,9 @@ levels = {
     3: {"format": stairs2, "image": images.calculator},
     4: {"format": jump1, "image": images.fan},
     5: {"format": jump2, "image": images.cube},
-    6: {"format": end, "image": images.cube},
+    6: {"format": jump3, "image": images.cube},
+    7: {"format": runup1, "image": images.calculator},
+    8: {"format": end, "image": images.calculator},
 }
 
 
