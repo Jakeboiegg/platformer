@@ -68,6 +68,40 @@ stairs2 = [
     "                                        ",
 ]
 
+jump1 = [
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                  e                     ",
+    "                                        ",
+    "               xxxxxxxxx                ",
+    "                                        ",
+    "                          xxxx          ",
+    "                                        ",
+    "      xxxxxxxxxx            xxxxxxxxxxxx",
+    "                                        ",
+    "   xxxxx                                ",
+    "                          o             ",
+    "          xxxxx                         ",
+    "                                        ",
+]
+jump2 = [
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                             e          ",
+    "                                        ",
+    "                       xxxxxxxxxxx      ",
+    "                                        ",
+    "     xxxxxxxxxxx                        ",
+    "                                        ",
+    "                       xxxxxxxxxxx      ",
+    "                                        ",
+    "     xxxxxxxxxxx             o          ",
+    "                                        ",
+    "                                        ",
+]
 end = [
     "                                        ",
     "                                        ",
@@ -89,5 +123,7 @@ levels = {
     1: {"format": tutorial},
     2: {"format": stairs1},
     3: {"format": stairs2},
-    4: {"format": end},
+    4: {"format": jump1},
+    5: {"format": jump2},
+    6: {"format": end},
 }
