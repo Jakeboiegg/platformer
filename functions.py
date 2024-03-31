@@ -122,3 +122,12 @@ def touchingObective(player, objective):
 def vibrate(objective, time):
     offset = 5 * math.sin(time / 15)
     objective.y = objective.initialy + offset
+
+
+def end(level):
+    global levels
+
+    if level == len(levels):
+        return True
+    else:
+        return False

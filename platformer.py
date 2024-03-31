@@ -11,6 +11,7 @@ from functions import (
     onPlatform,
     touchingObective,
     vibrate,
+    end,
 )
 
 pygame.init()
@@ -32,6 +33,7 @@ FPS = 60
 level = 0
 change_level = True
 level_font = pygame.font.Font("Rubik.ttf", 300)
+time_font = pygame.font.Font("Rubik.ttf", 75)
 
 platforms = []
 player = Player(0, -500)  # to not make the player touch the objective
@@ -55,6 +57,7 @@ def updateLevel():
 
 
 def level_text_draw(number):
+    number = str(number)
     level_text_surface = level_font.render(number, True, colour.level_text)
     level_text_rect = level_text_surface.get_rect()
     screen.blit(
@@ -66,14 +69,49 @@ def level_text_draw(number):
     )
 
 
+def end_time_text_draw(number):
+    number = int(number)
+
+    minutes = time // 60
+    if minutes < 10:
+        time_formatted = f"{time // 3600}:0{minutes}"
+    else:
+        time_formatted = f"{time // 3600}:{minutes}"
+
+    time_text_surface = time_font.render(time_formatted, True, colour.level_text)
+    time_text_rect = time_text_surface.get_rect()
+    screen.blit(
+        time_text_surface,
+        (
+            (screen_dimensions.width / 2) - (time_text_rect.width / 2),
+            (screen_dimensions.height / 2) - (time_text_rect.height / 2),
+        ),
+    )
+
+
 def platform_draw():
     for platform in platforms:
         platform.draw(screen, colour)
 
 
+def time_draw(time):
+    time = int(time)
+    minutes = time // 60
+    if minutes < 10:
+        time_formatted = f"{time // 3600}:0{minutes}"
+    else:
+        time_formatted = f"{time // 3600}:{minutes}"
+
+    time_text_surface = time_font.render(time_formatted, True, colour.level_text)
+    screen.blit(time_text_surface, (30, 30))
+
+
 def updateScreen():
     screen.fill(colour.background)
-    level_text_draw(str(level))
+
+    level_text_draw(level)
+    time_draw(time)
+
     floor.draw(screen, screen_dimensions, colour)
     objective.draw(screen, colour)
     player.draw(screen, images)
@@ -88,7 +126,6 @@ def main():
     global change_level, level, platforms, time
     while running:
         clock.tick(FPS)
-        time += 1
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -127,6 +164,9 @@ def main():
         touching_objective = touchingObective(player, objective)
         if touching_objective:
             change_level = True
+
+        if not end(level):
+            time += 1
 
         updateScreen()
 

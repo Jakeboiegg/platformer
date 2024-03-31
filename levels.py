@@ -67,9 +67,27 @@ stairs2 = [
     "                           xxxxxxxx     ",
     "                                        ",
 ]
+
+end = [
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "                                        ",
+    "      o                                 ",
+    "                                        ",
+    "                                        ",
+]
 levels = {
     1: {"format": tutorial},
     2: {"format": stairs1},
     3: {"format": stairs2},
-    4: {"format": empty},
+    4: {"format": end},
 }
