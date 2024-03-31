@@ -39,6 +39,8 @@ platforms = []
 player = Player(0, -500)  # to not make the player touch the objective
 objective = Objective(0, -300)
 
+short = False
+
 
 def updateLevel():
     global platforms, player, objective, level
@@ -111,6 +113,7 @@ def time_draw(time):
 
 
 def updateScreen():
+    global short
     screen.fill(colour.background)
 
     level_text_draw(level)
@@ -118,7 +121,7 @@ def updateScreen():
 
     floor.draw(screen, screen_dimensions, colour)
     objective.draw(screen, colour)
-    player.draw(screen, images)
+    player.draw(short, screen, images)
     platform_draw()
 
     pygame.display.flip()
@@ -127,7 +130,7 @@ def updateScreen():
 
 def main():
     running = True
-    global change_level, level, platforms, time
+    global change_level, level, platforms, time, short
     while running:
         clock.tick(FPS)
 
@@ -152,12 +155,17 @@ def main():
         ):
             player.is_jump = True
 
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            player.move("left")
-        elif keys[pygame.K_RIGHT] or keys[pygame.K_e]:
-            player.move("right")
+        if keys[pygame.K_DOWN] or keys[pygame.K_LSHIFT]:
+            short = True
         else:
-            player.move("no_input")
+            short = False
+
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            player.move("left", short)
+        elif keys[pygame.K_RIGHT] or keys[pygame.K_e]:
+            player.move("right", short)
+        else:
+            player.move("no_input", short)
 
         floorCollision(player, floor, screen_dimensions)
         keepInWindow(player, screen_dimensions)

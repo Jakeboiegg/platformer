@@ -22,10 +22,15 @@ class Images:
     def __init__(self):
         self.left = pygame.image.load("images/left.png").convert_alpha()
         self.left_jump = pygame.image.load("images/left_jump.png").convert_alpha()
+        self.left_short = pygame.image.load("images/left_short.png").convert_alpha()
+
         self.right = pygame.image.load("images/right.png").convert_alpha()
         self.right_jump = pygame.image.load("images/right_jump.png").convert_alpha()
+        self.right_short = pygame.image.load("images/right_short.png").convert_alpha()
+
         self.idle = pygame.image.load("images/idle.png").convert_alpha()
         self.idle_jump = pygame.image.load("images/idle_jump.png").convert_alpha()
+        self.idle_short = pygame.image.load("images/idle_short.png").convert_alpha()
 
 
 class Player:
@@ -43,11 +48,14 @@ class Player:
         self.max_speed = 12
         self.gravity = 14
 
+        self.short_acceleration = 0.2
+        self.short_max_speed = 1
+
         self.jump_power = 25
         self.is_jump = False
         self.jump_count = 0
 
-    def draw(self, screen, images):
+    def draw(self, short, screen, images):
         facing = "idle"
         if self.velocity == 0:
             facing = "idle"
@@ -57,36 +65,57 @@ class Player:
             facing = "right"
 
         image = images.idle
-        if facing == "idle" and not self.is_jump:
-            image = images.idle
-        elif facing == "idle" and self.is_jump:
-            image = images.idle_jump
+        if facing == "idle":
+            if self.is_jump:
+                image = images.idle_jump
+            elif short:
+                image = images.idle_short
+            else:
+                image = images.idle
 
-        elif facing == "left" and not self.is_jump:
-            image = images.left
-        elif facing == "left" and self.is_jump:
-            image = images.left_jump
+        if facing == "left":
+            if self.is_jump:
+                image = images.left_jump
+            elif short:
+                image = images.left_short
+            else:
+                image = images.left
 
-        elif facing == "right" and not self.is_jump:
-            image = images.right
-        elif facing == "right" and self.is_jump:
-            image = images.right_jump
+        if facing == "right":
+            if self.is_jump:
+                image = images.right_jump
+            elif short:
+                image = images.right_short
+            else:
+                image = images.right
 
         rect = pygame.rect.Rect((self.x, self.y, self.width, self.height))
         screen.blit(image, rect)
 
-    def move(self, direction):
+    def move(self, direction, short):
         self.bottom = {
             "x": self.x + (self.width / 2),
             "y": self.y + self.height,
         }
 
         # move left / right
-        if direction == "left":
+        if direction == "left" and not short:
             self.velocity -= self.acceleration
 
-        elif direction == "right":
+        elif direction == "right" and not short:
             self.velocity += self.acceleration
+
+        elif (
+            direction == "left" and short and self.velocity >= self.short_max_speed * -1
+        ):
+            self.velocity -= self.short_acceleration
+            if self.velocity < self.short_max_speed * -1:
+                self.velocity = self.short_max_speed * -1
+
+        elif direction == "right" and short and self.velocity <= self.short_max_speed:
+            self.velocity += self.short_acceleration
+            if self.velocity > self.short_max_speed:
+                self.velocity = self.short_max_speed
 
         else:
             # speed_decay when no input
