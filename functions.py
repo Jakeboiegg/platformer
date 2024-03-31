@@ -1,59 +1,7 @@
 import pygame
 import math
-import levels
-from classes import Platform
 
 pygame.init()
-
-levels = levels.levels
-
-
-def init_player_position(level):
-    global levels
-    o_count = 0
-    player_initial_position = []
-
-    for row_number, row in enumerate(levels[level]["format"]):
-        for column_number, editor_chr in list(enumerate(row)):
-            if editor_chr == "o":
-                o_count += 1
-                player_initial_position.append(column_number * 20)
-                player_initial_position.append(row_number * 40)
-
-    if o_count == 1:
-        return player_initial_position
-    else:
-        return [0, -300]
-
-
-def init_objective_position(level):
-    global levels
-    e_count = 0
-    objective_initial_position = []
-
-    for row_number, row in enumerate(levels[level]["format"]):
-        for column_number, editor_chr in list(enumerate(row)):
-            if editor_chr == "e":
-                e_count += 1
-                objective_initial_position.append(column_number * 20)
-                objective_initial_position.append(row_number * 40)
-
-    if e_count == 1:
-        return objective_initial_position
-    else:
-        return [0, -500]
-
-
-def init_platforms_position(level):
-    global levels
-    platforms = []
-
-    for row_number, row in enumerate(levels[level]["format"]):
-        for column_number, editor_chr in list(enumerate(row)):
-            if editor_chr == "x":
-                platforms.append(Platform(column_number * 20, row_number * 40))
-
-    return platforms
 
 
 def floorCollision(player, floor, screen_dimensions):
@@ -122,12 +70,3 @@ def touchingObective(player, objective):
 def vibrate(objective, time):
     offset = 5 * math.sin(time / 15)
     objective.y = objective.initialy + offset
-
-
-def end(level):
-    global levels
-
-    if level == len(levels):
-        return True
-    else:
-        return False

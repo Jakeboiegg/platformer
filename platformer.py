@@ -1,9 +1,6 @@
 import pygame
-from classes import Screen, Colour, Images, Player, Floor, Objective
+from classes import Screen, Colour, Images, Player, Floor, Objective, Platform
 from functions import (
-    init_player_position,
-    init_objective_position,
-    init_platforms_position,
     floorCollision,
     onFloor,
     keepInWindow,
@@ -11,8 +8,8 @@ from functions import (
     onPlatform,
     touchingObective,
     vibrate,
-    end,
 )
+from levels import tutorial, stairs1, stairs2, jump1, jump2, end
 
 pygame.init()
 
@@ -30,16 +27,82 @@ time = 0
 clock = pygame.time.Clock()
 FPS = 60
 
-level = 0
-change_level = True
+level = 1
+change_level = False
 level_font = pygame.font.Font("Rubik.ttf", 300)
 time_font = pygame.font.Font("Rubik.ttf", 75)
 
 platforms = []
-player = Player(0, -500)  # to not make the player touch the objective
+player = Player(1000, -500)  # to not make the player touch the objective
 objective = Objective(0, -300)
 
 short = False
+
+levels = {
+    1: {"format": tutorial, "image": images.dog},
+    2: {"format": stairs1, "image": images.can},
+    3: {"format": stairs2, "image": images.calculator},
+    4: {"format": jump1, "image": images.fan},
+    5: {"format": jump2, "image": images.cube},
+    6: {"format": end, "image": images.cube},
+}
+
+
+def init_player_position(level):
+    global levels
+    o_count = 0
+    player_initial_position = []
+
+    for row_number, row in enumerate(levels[level]["format"]):
+        for column_number, editor_chr in list(enumerate(row)):
+            if editor_chr == "o":
+                o_count += 1
+                player_initial_position.append(column_number * 20)
+                player_initial_position.append(row_number * 40)
+
+    if o_count == 1:
+        return player_initial_position
+    else:
+        return [0, -300]
+
+
+def init_objective_position(level):
+    global levels
+    e_count = 0
+    objective_initial_position = []
+
+    for row_number, row in enumerate(levels[level]["format"]):
+        for column_number, editor_chr in list(enumerate(row)):
+            if editor_chr == "e":
+                e_count += 1
+                objective_initial_position.append(column_number * 20)
+                objective_initial_position.append(row_number * 40)
+
+    if e_count == 1:
+        return objective_initial_position
+    else:
+        return [0, -500]
+
+
+def init_platforms_position(level):
+    global levels
+    platforms = []
+
+    for row_number, row in enumerate(levels[level]["format"]):
+        for column_number, editor_chr in list(enumerate(row)):
+            if editor_chr == "x":
+                platforms.append(Platform(column_number * 20, row_number * 40))
+
+    return platforms
+
+
+def is_end(level):
+    global levels
+
+    if level == len(levels):
+        return True
+    else:
+        return False
 
 
 def updateLevel():
@@ -116,14 +179,14 @@ def updateScreen():
     global short
     screen.fill(colour.background)
 
-    if not end(level):
+    if not is_end(level):
         level_text_draw(level)
-    elif end(level):
+    elif is_end(level):
         level_text_draw("end")
     time_draw(time)
 
     floor.draw(screen, screen_dimensions, colour)
-    objective.draw(screen, colour)
+    objective.draw(screen, levels[level]["image"], colour)
     player.draw(short, screen, images)
     platform_draw()
 
@@ -132,6 +195,7 @@ def updateScreen():
 
 
 def main():
+    updateLevel()
     running = True
     global change_level, level, platforms, time, short
     while running:
@@ -141,7 +205,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        if change_level:
+        if change_level and touchingObective(player, objective):
             platforms = []
             level += 1
             updateLevel()
@@ -180,7 +244,7 @@ def main():
         if touching_objective:
             change_level = True
 
-        if not end(level):
+        if not is_end(level):
             time += 1
 
         updateScreen()

@@ -1,5 +1,7 @@
 import pygame
 
+pygame.init()
+
 
 class Screen:
     def __init__(self):
@@ -31,6 +33,12 @@ class Images:
         self.idle = pygame.image.load("images/idle.png").convert_alpha()
         self.idle_jump = pygame.image.load("images/idle_jump.png").convert_alpha()
         self.idle_short = pygame.image.load("images/idle_short.png").convert_alpha()
+
+        self.calculator = pygame.image.load("images/calculator.png").convert_alpha()
+        self.can = pygame.image.load("images/can.png").convert_alpha()
+        self.cube = pygame.image.load("images/cube.png").convert_alpha()
+        self.dog = pygame.image.load("images/dog.png").convert_alpha()
+        self.fan = pygame.image.load("images/fan.png").convert_alpha()
 
 
 class Player:
@@ -186,7 +194,11 @@ class Objective:
         self.height = 60
         self.width = 60
 
-    def draw(self, screen, colour):
-        pygame.draw.rect(
-            screen, colour.green, (self.x, self.y, self.width, self.height)
-        )
+    def draw(self, screen, image, colour):
+        if image == "none":
+            pygame.draw.rect(
+                screen, colour.green, (self.x, self.y, self.width, self.height)
+            )
+        else:
+            rect = pygame.rect.Rect((self.x, self.y, self.width, self.height))
+            screen.blit(image, rect)
