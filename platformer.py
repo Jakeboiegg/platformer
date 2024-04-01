@@ -18,6 +18,7 @@ from levels import (
     jump3,
     runup1,
     runup2,
+    climb1,
     end,
 )
 
@@ -54,10 +55,11 @@ levels = {
     3: {"format": stairs2, "image": images.calculator},
     4: {"format": jump1, "image": images.fan},
     5: {"format": jump2, "image": images.cube},
-    6: {"format": jump3, "image": images.cube},
+    6: {"format": jump3, "image": images.miku},
     7: {"format": runup1, "image": images.calculator},
     8: {"format": runup2, "image": images.calculator},
-    9: {"format": end, "image": images.calculator},
+    9: {"format": climb1, "image": images.cube},
+    10: {"format": end, "image": images.calculator},
 }
 
 

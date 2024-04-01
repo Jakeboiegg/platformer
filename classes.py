@@ -39,6 +39,7 @@ class Images:
         self.cube = pygame.image.load("images/cube.png").convert_alpha()
         self.dog = pygame.image.load("images/dog.png").convert_alpha()
         self.fan = pygame.image.load("images/fan.png").convert_alpha()
+        self.miku = pygame.image.load("images/miku.png").convert_alpha()
 
 
 class Player:
