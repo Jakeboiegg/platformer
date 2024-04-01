@@ -19,8 +19,10 @@ def onFloor(player, floor, screen_dimensions):
 def keepInWindow(player, screen_dimensions):
     if player.x < 0:
         player.x = 0
+        player.velocity = 0
     if player.x > screen_dimensions.width - player.width:
         player.x = screen_dimensions.width - player.width
+        player.velocity = 0
 
 
 def platformCollision(platforms, player):
