@@ -1,14 +1,6 @@
 import pygame
 from classes import Screen, Colour, Images, Player, Floor, Objective, Platform
-from functions import (
-    floorCollision,
-    onFloor,
-    keepInWindow,
-    platformCollision,
-    onPlatform,
-    touchingObective,
-    vibrate,
-)
+import check
 from levels import (
     tutorial,
     stairs1,
@@ -32,7 +24,7 @@ pygame.display.set_caption("Belvis go jumpy wooo")
 
 colour = Colour()
 images = Images()
-floor = Floor(screen_dimensions.width, screen_dimensions.height, 30)
+floor = Floor(screen_dimensions, 30)
 
 time = 0
 clock = pygame.time.Clock()
@@ -198,7 +190,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        if change_level and touchingObective(player, objective):
+        if change_level and check.touchingObective(player, objective):
             platforms = []
             level += 1
             updateLevel()
@@ -209,8 +201,8 @@ def main():
             keys[pygame.K_SPACE]
             and not player.is_jump
             and (
-                onFloor(player, floor, screen_dimensions)
-                or onPlatform(platforms, player)
+                check.onFloor(player, floor, screen_dimensions)
+                or check.onPlatform(platforms, player)
             )
         ):
             player.is_jump = True
@@ -221,19 +213,18 @@ def main():
             short = False
 
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            player.move("left", short)
+            player.move("left", short, screen_dimensions)
         elif keys[pygame.K_RIGHT] or keys[pygame.K_e]:
-            player.move("right", short)
+            player.move("right", short, screen_dimensions)
         else:
-            player.move("no_input", short)
+            player.move("no_input", short, screen_dimensions)
 
-        floorCollision(player, floor, screen_dimensions)
-        keepInWindow(player, screen_dimensions)
-        platformCollision(platforms, player)
+        player.floorCollision(floor, screen_dimensions)
+        player.platformCollision(platforms)
 
-        vibrate(objective, time)
+        objective.vibrate()
 
-        touching_objective = touchingObective(player, objective)
+        touching_objective = check.touchingObective(player, objective)
         if touching_objective:
             change_level = True
 

@@ -1,4 +1,6 @@
 import pygame
+import math
+import check
 
 pygame.init()
 
@@ -101,7 +103,7 @@ class Player:
         rect = pygame.rect.Rect((self.x, self.y, self.width, self.height))
         screen.blit(image, rect)
 
-    def move(self, direction, short):
+    def move(self, direction, short, screen_dimensions):
         self.bottom = {
             "x": self.x + (self.width / 2),
             "y": self.y + self.height,
@@ -157,20 +159,51 @@ class Player:
         # update self position
         self.x += self.velocity
 
+        # keep in window
+        if self.x < 0:
+            self.x = 0
+            self.velocity = 0
+        if self.x > screen_dimensions.width - self.width:
+            self.x = screen_dimensions.width - self.width
+            self.velocity = 0
+
         # gravity
         self.y += self.gravity
 
+    def floorCollision(self, floor, screen_dimensions):
+        if check.onFloor(self, floor, screen_dimensions):
+            self.y = screen_dimensions.height - floor.height - self.height
+
+    def platformCollision(self, platforms):
+        for platform in platforms:
+            self_left = self.x
+            self_right = self.x + self.width
+            platform_left = platform.x
+            platform_right = platform.x + platform.width
+            platform_top = platform.y
+            self_bottom = self.y + self.height
+            if (
+                platform_top <= self_bottom <= platform_top + self.gravity
+                and self_left <= platform_right
+                and self_right >= platform_left
+            ):
+                self.y = platform.y - self.height
+
 
 class Floor:
-    def __init__(self, screen_width, screen_height, height):
-        self.screen_width = screen_width
-        self.screen_height = screen_height
+    def __init__(self, screen_dimensions, height):
         self.height = height
+        self.x = 0
+        self.y = screen_dimensions.height - self.height
 
     def draw(self, screen, screen_dimensions, colour):
         x = 0
         y = screen_dimensions.height - self.height
-        pygame.draw.rect(screen, colour.sky, (x, y, self.screen_width, self.height))
+        pygame.draw.rect(
+            screen,
+            colour.sky,
+            (x, y, screen_dimensions.width, screen_dimensions.height),
+        )
 
 
 class Platform:
@@ -194,6 +227,12 @@ class Objective:
         self.initialy = y
         self.height = 60
         self.width = 60
+        self.vibrate_count = 0
+
+    def vibrate(self):
+        offset = 5 * math.sin(self.vibrate_count / 15)
+        self.y = self.initialy + offset
+        self.vibrate_count += 1
 
     def draw(self, screen, image, colour):
         if image == "none":
