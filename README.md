@@ -15,14 +15,16 @@ make sure to have pygame installed on your machine
 
 Use
 
-pip install pygame -or-
+pip install pygame 
+
+-or-
 
 pip3 install pygame
 
 in terminal
 
 ## Booting the Game
-ONLY, I repeat, ONLY IDLE can be used to launch game, any other software will cause issues
+ONLY IDLE can be used to launch game, any other software will cause issues
 (not Xcode)
 
 Just click run after launching platformer.py
