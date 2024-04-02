@@ -1,18 +1,7 @@
 import pygame
 from classes import Screen, Colour, Images, Player, Floor, Objective, Platform
 import check
-from levels import (
-    tutorial,
-    stairs1,
-    stairs2,
-    jump1,
-    jump2,
-    jump3,
-    runup1,
-    runup2,
-    climb1,
-    end,
-)
+import levels
 
 pygame.init()
 
@@ -42,16 +31,16 @@ objective = Objective(0, -300)
 short = False
 
 levels = {
-    1: {"format": tutorial, "image": images.dog},
-    2: {"format": stairs1, "image": images.can},
-    3: {"format": stairs2, "image": images.calculator},
-    4: {"format": jump1, "image": images.fan},
-    5: {"format": jump2, "image": images.cube},
-    6: {"format": jump3, "image": images.miku},
-    7: {"format": runup1, "image": images.calculator},
-    8: {"format": runup2, "image": images.calculator},
-    9: {"format": climb1, "image": images.cube},
-    10: {"format": end, "image": images.calculator},
+    1: {"format": levels.tutorial, "image": images.dog},
+    2: {"format": levels.stairs1, "image": images.can},
+    3: {"format": levels.stairs2, "image": images.calculator},
+    4: {"format": levels.jump1, "image": images.fan},
+    5: {"format": levels.jump2, "image": images.cube},
+    6: {"format": levels.jump3, "image": images.miku},
+    7: {"format": levels.runup1, "image": images.calculator},
+    8: {"format": levels.runup2, "image": images.calculator},
+    9: {"format": levels.climb1, "image": images.cube},
+    10: {"format": levels.end, "image": images.calculator},
 }
 
 
@@ -114,16 +103,11 @@ def is_end(level):
 
 def updateLevel():
     global platforms, player, objective, level
-    player_position = init_player_position(level)
-    objective_position = init_objective_position(level)
 
-    player.x = player_position[0]
-    player.y = player_position[1]
+    format = levels[level]["format"]
 
-    objective.x = objective_position[0]
-    objective.y = objective_position[1]
-    objective.initialx = objective_position[0]
-    objective.initialy = objective_position[1]
+    player.init_position(format)
+    objective.init_position(format)
 
     platforms = init_platforms_position(level)
 

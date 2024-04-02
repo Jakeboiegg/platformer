@@ -189,6 +189,24 @@ class Player:
             ):
                 self.y = platform.y - self.height
 
+    def init_position(self, format):
+        o_count = 0
+        player_initial_position = []
+
+        for row_number, row in enumerate(format):
+            for column_number, editor_chr in list(enumerate(row)):
+                if editor_chr == "o":
+                    o_count += 1
+                    player_initial_position.append(column_number * 20)
+                    player_initial_position.append(row_number * 40)
+
+        if o_count == 1:
+            self.x = player_initial_position[0]
+            self.y = player_initial_position[1]
+        else:
+            self.x = 300
+            self.y = -300
+
 
 class Floor:
     def __init__(self, screen_dimensions, height):
@@ -242,3 +260,25 @@ class Objective:
         else:
             rect = pygame.rect.Rect((self.x, self.y, self.width, self.height))
             screen.blit(image, rect)
+
+    def init_position(self, format):
+        e_count = 0
+        objective_initial_position = []
+
+        for row_number, row in enumerate(format):
+            for column_number, editor_chr in list(enumerate(row)):
+                if editor_chr == "e":
+                    e_count += 1
+                    objective_initial_position.append(column_number * 20)
+                    objective_initial_position.append(row_number * 40)
+
+        if e_count == 1:
+            self.x = objective_initial_position[0]
+            self.y = objective_initial_position[1]
+            self.initialx = objective_initial_position[0]
+            self.initialy = objective_initial_position[1]
+        else:
+            self.x = 500
+            self.y = -500
+            self.initialx = 500
+            self.initialy = -500
