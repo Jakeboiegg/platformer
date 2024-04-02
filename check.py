@@ -34,3 +34,10 @@ def touchingObective(player, objective):
         return True
     else:
         return False
+
+
+def is_end(level, levels):
+    if level == len(levels):
+        return True
+    else:
+        return False
