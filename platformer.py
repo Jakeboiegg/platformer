@@ -86,10 +86,12 @@ def main():
     while running:
         clock.tick(FPS)
 
+        # quit button
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
+        # change levels
         if change_level and check.touchingObective(player, objective):
             platforms = []
             level += 1
@@ -100,7 +102,10 @@ def main():
             platforms = init_platforms_position(format)
             change_level = False
 
+        # player input
         keys = pygame.key.get_pressed()
+
+        # jumping
         if (
             keys[pygame.K_SPACE]
             and not player.is_jump
@@ -111,11 +116,13 @@ def main():
         ):
             player.is_jump = True
 
+        # shifting (short)
         if keys[pygame.K_DOWN] or keys[pygame.K_LSHIFT]:
             short = True
         else:
             short = False
 
+        # left-right movement
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             player.move("left", short, screen_dimensions)
         elif keys[pygame.K_RIGHT] or keys[pygame.K_e]:
@@ -132,8 +139,23 @@ def main():
         if touching_objective:
             change_level = True
 
-        if not check.is_end(level, levels):
+        # start timer on first received input
+        if time == 0 and (
+            keys[pygame.K_LEFT] or keys[pygame.K_RIGHT] or keys[pygame.K_SPACE]
+        ):
+            time = 1
+        elif not check.is_end(level, levels) and time > 0:
             time += 1
+
+        # restart when R pressed
+        if keys[pygame.K_r]:
+            level = 1
+            time = 0
+
+            format = levels[level]["format"]
+            player.init_position(format)
+            objective.init_position(format)
+            platforms = init_platforms_position(format)
 
         updateScreen()
 
