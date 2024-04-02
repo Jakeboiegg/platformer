@@ -28,8 +28,8 @@ tutorial = [
     "                                        ",
     "                              xxxxxxxx  ",
     "                    xxxxxxx             ",
-    "         xxxxxxx                        ",
-    "    o                                   ",
+    "    o    xxxxxxx                        ",
+    "                                        ",
     "                                        ",
 ]
 stairs1 = [
