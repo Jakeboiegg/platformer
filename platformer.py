@@ -1,8 +1,8 @@
 import pygame
-from classes import Screen, Colour, Images, Player, Floor, Objective, Platform
-import check
-import levels
-import draw
+from assets.classes import Screen, Colour, Images, Player, Floor, Objective, Platform
+from assets import check
+from assets import levels
+from assets import draw
 
 pygame.init()
 
@@ -22,8 +22,8 @@ FPS = 60
 
 level = 1
 change_level = False
-level_font = pygame.font.Font("Rubik.ttf", 300)
-time_font = pygame.font.Font("Rubik.ttf", 75)
+level_font = pygame.font.Font("assets/Rubik.ttf", 300)
+time_font = pygame.font.Font("assets/Rubik.ttf", 75)
 
 platforms = []
 player = Player(1000, -500)  # to not make the player touch the objective

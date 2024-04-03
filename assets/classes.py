@@ -1,6 +1,6 @@
 import pygame
 import math
-import check
+from assets import check
 
 pygame.init()
 
@@ -24,24 +24,38 @@ class Colour:
 
 class Images:
     def __init__(self):
-        self.left = pygame.image.load("images/left.png").convert_alpha()
-        self.left_jump = pygame.image.load("images/left_jump.png").convert_alpha()
-        self.left_short = pygame.image.load("images/left_short.png").convert_alpha()
+        self.left = pygame.image.load("assets/images/left.png").convert_alpha()
+        self.left_jump = pygame.image.load(
+            "assets/images/left_jump.png"
+        ).convert_alpha()
+        self.left_short = pygame.image.load(
+            "assets/images/left_short.png"
+        ).convert_alpha()
 
-        self.right = pygame.image.load("images/right.png").convert_alpha()
-        self.right_jump = pygame.image.load("images/right_jump.png").convert_alpha()
-        self.right_short = pygame.image.load("images/right_short.png").convert_alpha()
+        self.right = pygame.image.load("assets/images/right.png").convert_alpha()
+        self.right_jump = pygame.image.load(
+            "assets/images/right_jump.png"
+        ).convert_alpha()
+        self.right_short = pygame.image.load(
+            "assets/images/right_short.png"
+        ).convert_alpha()
 
-        self.idle = pygame.image.load("images/idle.png").convert_alpha()
-        self.idle_jump = pygame.image.load("images/idle_jump.png").convert_alpha()
-        self.idle_short = pygame.image.load("images/idle_short.png").convert_alpha()
+        self.idle = pygame.image.load("assets/images/idle.png").convert_alpha()
+        self.idle_jump = pygame.image.load(
+            "assets/images/idle_jump.png"
+        ).convert_alpha()
+        self.idle_short = pygame.image.load(
+            "assets/images/idle_short.png"
+        ).convert_alpha()
 
-        self.calculator = pygame.image.load("images/calculator.png").convert_alpha()
-        self.can = pygame.image.load("images/can.png").convert_alpha()
-        self.cube = pygame.image.load("images/cube.png").convert_alpha()
-        self.dog = pygame.image.load("images/dog.png").convert_alpha()
-        self.fan = pygame.image.load("images/fan.png").convert_alpha()
-        self.miku = pygame.image.load("images/miku.png").convert_alpha()
+        self.calculator = pygame.image.load(
+            "assets/images/calculator.png"
+        ).convert_alpha()
+        self.can = pygame.image.load("assets/images/can.png").convert_alpha()
+        self.cube = pygame.image.load("assets/images/cube.png").convert_alpha()
+        self.dog = pygame.image.load("assets/images/dog.png").convert_alpha()
+        self.fan = pygame.image.load("assets/images/fan.png").convert_alpha()
+        self.miku = pygame.image.load("assets/images/miku.png").convert_alpha()
 
 
 class Player:
