@@ -45,7 +45,7 @@ levels = {
 }
 
 
-def init_platforms_position(format):
+def init_platforms_position(format):  # closed, but nowhere to put
     platforms = []
 
     for row_number, row in enumerate(format):
@@ -56,7 +56,16 @@ def init_platforms_position(format):
     return platforms
 
 
-def updateScreen():
+def init_game_elements(format):  # not closed
+    global platforms, change_level
+
+    player.init_position(format)
+    objective.init_position(format)
+    platforms = init_platforms_position(format)
+    change_level = False
+
+
+def updateScreen():  # not closed
     screen.fill(colour.background)
 
     if not check.is_end(level, levels):
@@ -78,9 +87,7 @@ def main():
     global change_level, level, platforms, time, short
 
     format = levels[level]["format"]
-    player.init_position(format)
-    objective.init_position(format)
-    platforms = init_platforms_position(format)
+    init_game_elements(format)
 
     running = True
     while running:
@@ -97,10 +104,7 @@ def main():
             level += 1
 
             format = levels[level]["format"]
-            player.init_position(format)
-            objective.init_position(format)
-            platforms = init_platforms_position(format)
-            change_level = False
+            init_game_elements(format)
 
         # player input
         keys = pygame.key.get_pressed()
@@ -153,9 +157,7 @@ def main():
             time = 0
 
             format = levels[level]["format"]
-            player.init_position(format)
-            objective.init_position(format)
-            platforms = init_platforms_position(format)
+            init_game_elements(format)
 
         updateScreen()
 
