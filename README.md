@@ -3,7 +3,7 @@ hii this just a simple platformer in pygame
 
 Made as a hobby so don't expect it to be polished at all
 
-![game photo](images/game_photo.png)
+![game photo](assets/images/game_photo.png)
 
 ## CONTROLS
 Arrow keys except up to move
