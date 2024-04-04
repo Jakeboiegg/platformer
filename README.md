@@ -25,7 +25,6 @@ in terminal
 
 ## Booting the Game
 ONLY IDLE can be used to launch game, any other software will cause issues
-(not Xcode)
 
 Just click run after launching platformer.py
 
