@@ -32,7 +32,7 @@ objective = Objective(0, -300)
 short = False
 
 levels = {
-    1: {"format": levels.stop1, "image": images.dog},
+    1: {"format": levels.tutorial, "image": images.dog},
     2: {"format": levels.stairs1, "image": images.can},
     3: {"format": levels.stairs2, "image": images.calculator},
     4: {"format": levels.jump1, "image": images.fan},
@@ -41,7 +41,9 @@ levels = {
     7: {"format": levels.runup1, "image": images.calculator},
     8: {"format": levels.runup2, "image": images.calculator},
     9: {"format": levels.climb1, "image": images.cube},
-    10: {"format": levels.end, "image": images.calculator},
+    10: {"format": levels.stop1, "image": images.calculator},
+    11: {"format": levels.stop2, "image": images.calculator},
+    12: {"format": levels.end, "image": images.calculator},
 }
 
 
