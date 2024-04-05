@@ -189,9 +189,9 @@ def main():
             short = False
 
         # left-right movement
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+        if keys[pygame.K_LEFT]:
             player.move("left", short, screen_dimensions)
-        elif keys[pygame.K_RIGHT] or keys[pygame.K_e]:
+        elif keys[pygame.K_RIGHT]:
             player.move("right", short, screen_dimensions)
         else:
             player.move("no_input", short, screen_dimensions)
