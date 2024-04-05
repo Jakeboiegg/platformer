@@ -165,7 +165,7 @@ def main():
         elif not check.is_end(level, levels) and time > 0:
             time += 1
 
-        # restart when ; pressed
+        # hard restart when ; pressed
         if keys[pygame.K_SEMICOLON]:
             level = 1
             time = 0
@@ -173,6 +173,7 @@ def main():
             format = levels[level]["format"]
             init_game_elements(format)
 
+        # soft restart wher r pressed
         if keys[pygame.K_r]:
             format = levels[level]["format"]
             init_game_elements(format)
