@@ -165,11 +165,15 @@ def main():
         elif not check.is_end(level, levels) and time > 0:
             time += 1
 
-        # restart when R pressed
-        if keys[pygame.K_r]:
+        # restart when ; pressed
+        if keys[pygame.K_SEMICOLON]:
             level = 1
             time = 0
 
+            format = levels[level]["format"]
+            init_game_elements(format)
+
+        if keys[pygame.K_r]:
             format = levels[level]["format"]
             init_game_elements(format)
 
