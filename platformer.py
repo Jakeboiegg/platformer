@@ -16,7 +16,6 @@ colour = Colour()
 images = Images()
 floor = Floor(screen_dimensions, 30)
 
-time = 0
 clock = pygame.time.Clock()
 FPS = 60
 
@@ -24,6 +23,9 @@ level = 1
 change_level = False
 level_font = pygame.font.Font("assets/Rubik.ttf", 300)
 time_font = pygame.font.Font("assets/Rubik.ttf", 75)
+
+time = 0
+timer_active = False
 
 platforms = []
 player = Player(1000, -500)  # to not make the player touch the objective
@@ -74,7 +76,7 @@ def updateScreen():  # not closed
         draw.level_text(screen, level, level_font, screen_dimensions, colour)
     elif check.is_end(level, levels):
         draw.level_text(screen, "end", level_font, screen_dimensions, colour)
-    draw.time(screen, time, time_font, colour)
+    draw.time(screen, time, timer_active, time_font, colour)
 
     floor.draw(screen, screen_dimensions, colour)
     objective.draw(screen, levels[level]["image"], colour)
@@ -86,7 +88,7 @@ def updateScreen():  # not closed
 
 
 def main():
-    global change_level, level, platforms, time, short
+    global change_level, level, platforms, time, timer_active, short
 
     format = levels[level]["format"]
     init_game_elements(format)
@@ -150,6 +152,8 @@ def main():
             keys[pygame.K_LEFT] or keys[pygame.K_RIGHT] or keys[pygame.K_SPACE]
         ):
             time = 1
+            timer_active = True
+
         elif not check.is_end(level, levels) and time > 0:
             time += 1
 
