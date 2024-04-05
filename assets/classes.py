@@ -297,3 +297,9 @@ class Objective:
             self.y = -500
             self.initialx = 500
             self.initialy = -500
+
+
+class Font:
+    def __init__(self):
+        self.level = pygame.font.Font("assets/Rubik.ttf", 300)
+        self.time = pygame.font.Font("assets/Rubik.ttf", 75)

@@ -1,5 +1,14 @@
 import pygame
-from assets.classes import Screen, Colour, Images, Player, Floor, Objective, Platform
+from assets.classes import (
+    Screen,
+    Colour,
+    Images,
+    Player,
+    Floor,
+    Objective,
+    Platform,
+    Font,
+)
 from assets import check
 from assets import levels
 from assets import draw
@@ -15,14 +24,13 @@ pygame.display.set_caption("Belvis go jumpy wooo")
 colour = Colour()
 images = Images()
 floor = Floor(screen_dimensions, 30)
+font = Font()
 
 clock = pygame.time.Clock()
 FPS = 60
 
 level = 1
 change_level = False
-level_font = pygame.font.Font("assets/Rubik.ttf", 300)
-time_font = pygame.font.Font("assets/Rubik.ttf", 75)
 
 time = 0
 timer_active = False
@@ -73,10 +81,10 @@ def updateScreen():  # not closed
     screen.fill(colour.background)
 
     if not check.is_end(level, levels):
-        draw.level_text(screen, level, level_font, screen_dimensions, colour)
+        draw.level_text(screen, level, font.level, screen_dimensions, colour)
     elif check.is_end(level, levels):
-        draw.level_text(screen, "end", level_font, screen_dimensions, colour)
-    draw.time(screen, time, timer_active, time_font, colour)
+        draw.level_text(screen, "end", font.level, screen_dimensions, colour)
+    draw.time(screen, time, timer_active, font.time, colour)
 
     floor.draw(screen, screen_dimensions, colour)
     objective.draw(screen, levels[level]["image"], colour)
