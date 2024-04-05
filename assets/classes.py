@@ -303,3 +303,6 @@ class Font:
     def __init__(self):
         self.level = pygame.font.Font("assets/Rubik.ttf", 300)
         self.time = pygame.font.Font("assets/Rubik.ttf", 75)
+
+        self.endscreen_text = pygame.font.Font("assets/Rubik.ttf", 50)
+        self.endscreen_time = pygame.font.Font("assets/Rubik.ttf", 100)

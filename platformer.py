@@ -58,6 +58,26 @@ def init_platforms_position(format):  # closed, but nowhere to put
     return platforms
 
 
+def format_time(time):
+    time = int(time)
+    minutes = time // 3600
+    seconds = (time // 60) - (minutes * 60)
+    milliseconds = (time // (60 / 100)) - (seconds * 100) - (minutes * 60 * 100)
+    milliseconds = int(milliseconds)
+    time_formatted = None
+
+    if seconds < 10 and milliseconds < 10:
+        time_formatted = f"{minutes}:0{seconds}:0{milliseconds}"
+    elif seconds < 10 and milliseconds >= 10:
+        time_formatted = f"{minutes}:0{seconds}:{milliseconds}"
+    elif seconds >= 10 and milliseconds < 10:
+        time_formatted = f"{minutes}:{seconds}:0{milliseconds}"
+    elif seconds >= 10 and milliseconds >= 10:
+        time_formatted = f"{minutes}:{seconds}:{milliseconds}"
+
+    return time_formatted
+
+
 def init_game_elements(format):  # not closed
     global platforms, change_level
 
@@ -71,15 +91,20 @@ def updateScreen():  # not closed
     screen.fill(colour.background)
 
     if not check.is_end(level, levels):
-        draw.level_text(screen, level, font.level, screen_dimensions, colour)
+        draw.level_text(screen, level)
+
+        time_formatted = format_time(time)
+        draw.time(screen, time_formatted, timer_active)
+
     elif check.is_end(level, levels):
-        draw.level_text(screen, "end", font.level, screen_dimensions, colour)
-    draw.time(screen, time, timer_active, font.time, colour)
+        time_formatted = format_time(time)
+        draw.end_time(screen, time_formatted)
+        draw.end_text(screen, "nah, id win")
 
     floor.draw(screen, screen_dimensions, colour)
     objective.draw(screen, levels[level]["image"], colour)
     player.draw(short, screen, images)
-    draw.platform(screen, platforms, colour)
+    draw.platform(screen, platforms)
 
     pygame.display.flip()
     pygame.display.update()
