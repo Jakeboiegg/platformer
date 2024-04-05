@@ -1,4 +1,5 @@
 import pygame
+import random
 from assets.classes import (
     Screen,
     Colour,
@@ -40,6 +41,7 @@ player = Player(1000, -500)  # to not make the player touch the objective
 objective = Objective(0, -300)
 
 short = False
+end_text = None
 
 levels = {
     1: {"format": levels.tutorial, "image": images.dog},
@@ -58,13 +60,12 @@ def init_platforms_position(format):  # closed, but nowhere to put
     return platforms
 
 
-def format_time(time):
+def format_time(time):  # closed
     time = int(time)
     minutes = time // 3600
     seconds = (time // 60) - (minutes * 60)
     milliseconds = (time // (60 / 100)) - (seconds * 100) - (minutes * 60 * 100)
     milliseconds = int(milliseconds)
-    time_formatted = None
 
     if seconds < 10 and milliseconds < 10:
         time_formatted = f"{minutes}:0{seconds}:0{milliseconds}"
@@ -74,8 +75,32 @@ def format_time(time):
         time_formatted = f"{minutes}:{seconds}:0{milliseconds}"
     elif seconds >= 10 and milliseconds >= 10:
         time_formatted = f"{minutes}:{seconds}:{milliseconds}"
+    else:
+        print("error")
+        time_formatted = 0
 
     return time_formatted
+
+
+def end_text_generator(time):  # closed
+    seconds = time // 60
+    if seconds <= 30:
+        ans = random.choice(["wowwowowo soo cool", "too fast."])
+    if 30 < seconds <= 45:
+        ans = random.choice(["kinda mid tho", "meh.", "its okay ig", "nah id win"])
+    if 45 < seconds <= 60:
+        ans = random.choice(["slowing down", "bad run?"])
+    if 60 < seconds <= 120:
+        ans = random.choice(
+            [
+                "kinda a jake timing there",
+                "kinda an alethea timing there",
+                "not a ying bing timing there",
+            ]
+        )
+    else:
+        ans = random.choice(["think you broke my timer :("])
+    return ans
 
 
 def init_game_elements(format):  # not closed
@@ -99,7 +124,7 @@ def updateScreen():  # not closed
     elif check.is_end(level, levels):
         time_formatted = format_time(time)
         draw.end_time(screen, time_formatted)
-        draw.end_text(screen, "nah, id win")
+        draw.end_text(screen, end_text)
 
     floor.draw(screen, screen_dimensions, colour)
     objective.draw(screen, levels[level]["image"], colour)
@@ -111,7 +136,7 @@ def updateScreen():  # not closed
 
 
 def main():
-    global change_level, level, platforms, time, timer_active, short
+    global change_level, level, platforms, time, timer_active, short, end_text
 
     format = levels[level]["format"]
     init_game_elements(format)
@@ -192,6 +217,10 @@ def main():
         if keys[pygame.K_r]:
             format = levels[level]["format"]
             init_game_elements(format)
+
+        # set end message when at end screen
+        if check.is_end(level, levels) and end_text is None:
+            end_text = end_text_generator(time)
 
         updateScreen()
 
