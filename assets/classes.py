@@ -20,6 +20,7 @@ class Colour:
         self.green = (166, 218, 149)
         self.lavender = (183, 189, 248)
         self.level_text = (73, 77, 100)
+        self.time_text = (110, 115, 141)
 
 
 class Images:

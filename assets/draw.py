@@ -33,8 +33,8 @@ def time(screen, time, timer_active, time_font, colour):
         time_formatted = f"{minutes}:{seconds}:{milliseconds}"
 
     if not timer_active:
-        time_text_surface = time_font.render(time_formatted, True, colour.level_text)
+        time_text_surface = time_font.render(time_formatted, True, colour.time_text)
         screen.blit(time_text_surface, (30, 30))
     elif timer_active:
-        time_text_surface = time_font.render(time_formatted, True, colour.white)
+        time_text_surface = time_font.render(time_formatted, True, colour.time_text)
         screen.blit(time_text_surface, (30, 30))
