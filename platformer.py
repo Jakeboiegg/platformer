@@ -96,11 +96,11 @@ def end_text_generator(time):  # closed
     seconds = time // 60
     if seconds <= 30:
         ans = random.choice(["wowwowowo soo cool", "too fast."])
-    if 30 < seconds <= 45:
+    elif 30 < seconds <= 45:
         ans = random.choice(["kinda mid tho", "meh.", "its okay ig", "nah id win"])
-    if 45 < seconds <= 60:
+    elif 45 < seconds <= 60:
         ans = random.choice(["slowing down", "bad run?"])
-    if 60 < seconds <= 120:
+    elif 60 < seconds <= 120:
         ans = random.choice(
             [
                 "kinda a jake timing there",
