@@ -155,7 +155,6 @@ def main():
 
     running = True
     while running:
-        print(f"{screen_dimensions.width}, {screen_dimensions.height}")
         clock.tick(FPS)
 
         # quit button
@@ -163,8 +162,24 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.VIDEORESIZE:
-                new_width = event.w
-                new_height = new_width * (600 / 800)
+                changed_width = event.w
+                changed_height = event.h
+
+                differences_width = abs(changed_width - screen_dimensions.width)
+                differences_height = abs(changed_height - screen_dimensions.height)
+
+                if differences_width >= differences_height:
+                    new_width = changed_width
+                    new_height = changed_width * (600 / 800)
+
+                elif differences_width < differences_height:
+                    new_width = changed_height * (800 / 600)
+                    new_height = changed_height
+
+                else:
+                    new_width, new_height = (800, 600)
+                    print(f"window size error, {changed_width}, {changed_height}")
+
                 screen = pygame.display.set_mode(
                     (new_width, new_height), pygame.RESIZABLE
                 )
