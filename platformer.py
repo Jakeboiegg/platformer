@@ -78,13 +78,13 @@ def format_time(time):  # closed
     milliseconds = int(milliseconds)
 
     if seconds < 10 and milliseconds < 10:
-        time_formatted = f"{minutes}:0{seconds}:0{milliseconds}"
+        time_formatted = f"{minutes}:0{seconds}.0{milliseconds}"
     elif seconds < 10 and milliseconds >= 10:
-        time_formatted = f"{minutes}:0{seconds}:{milliseconds}"
+        time_formatted = f"{minutes}:0{seconds}.{milliseconds}"
     elif seconds >= 10 and milliseconds < 10:
-        time_formatted = f"{minutes}:{seconds}:0{milliseconds}"
+        time_formatted = f"{minutes}:{seconds}.0{milliseconds}"
     elif seconds >= 10 and milliseconds >= 10:
-        time_formatted = f"{minutes}:{seconds}:{milliseconds}"
+        time_formatted = f"{minutes}:{seconds}.{milliseconds}"
     else:
         print("error")
         time_formatted = 0
