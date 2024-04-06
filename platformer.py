@@ -19,7 +19,9 @@ pygame.init()
 
 # initialise screen
 screen_dimensions = Screen()
-screen = pygame.display.set_mode((screen_dimensions.width, screen_dimensions.height))
+screen = pygame.display.set_mode(
+    (screen_dimensions.width, screen_dimensions.height), pygame.RESIZABLE
+)
 pygame.display.set_caption("Belvis go jumpy wooo")
 
 colour = Colour()
@@ -153,12 +155,24 @@ def main():
 
     running = True
     while running:
+        print(f"{screen_dimensions.width}, {screen_dimensions.height}")
         clock.tick(FPS)
 
         # quit button
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.VIDEORESIZE:
+                new_width = event.w
+                new_height = new_width * (600 / 800)
+                screen = pygame.display.set_mode(
+                    (new_width, new_height), pygame.RESIZABLE
+                )
+                screen_dimensions.width, screen_dimensions.height = (
+                    new_width,
+                    new_height,
+                )
+                pygame.display.flip()
 
         # change levels
         if change_level and check.touchingObective(player, objective):
