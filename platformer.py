@@ -128,15 +128,15 @@ def updateScreen():  # not closed
     screen.fill(colour.background)
 
     if not check.is_end(level, levels):
-        draw.level_text(screen, level)
+        draw.level_text(screen, level, screen_dimensions)
 
         time_formatted = format_time(time)
         draw.time(screen, time_formatted, timer_active)
 
     elif check.is_end(level, levels):
         time_formatted = format_time(time)
-        draw.end_time(screen, time_formatted)
-        draw.end_text(screen, end_text)
+        draw.end_time(screen, time_formatted, screen_dimensions)
+        draw.end_text(screen, end_text, screen_dimensions)
 
     floor.draw(screen, screen_dimensions, colour)
     objective.draw(screen, levels[level]["image"], colour)

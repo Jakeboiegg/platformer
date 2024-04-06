@@ -1,11 +1,10 @@
 from platformer import (
-    screen_dimensions,
     colour,
     font,
 )
 
 
-def level_text(screen, number):
+def level_text(screen, number, screen_dimensions):
     number = str(number)
     level_text_surface = font.level.render(number, True, colour.level_text)
     level_text_rect = level_text_surface.get_rect()
@@ -32,7 +31,7 @@ def time(screen, time_formatted, timer_active):
         screen.blit(time_text_surface, (30, 30))
 
 
-def end_time(screen, time_formatted):
+def end_time(screen, time_formatted, screen_dimensions):
     time_surface = font.endscreen_time.render(time_formatted, True, colour.time_text)
     time_width, time_height = time_surface.get_size()
     screen.blit(
@@ -44,7 +43,7 @@ def end_time(screen, time_formatted):
     )
 
 
-def end_text(screen, text):
+def end_text(screen, text, screen_dimensions):
     text_surface = font.endscreen_text.render(text, True, colour.time_text)
     text_width, text_height = text_surface.get_size()
     screen.blit(
