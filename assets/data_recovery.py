@@ -14,7 +14,7 @@ def main():
     3. You have no idea why you are here, please leave the program.
 
     You have 2 options:
-    | reformat | quit |
+    | reset | quit |
     """
 
     confirm_text = """
@@ -31,7 +31,7 @@ def main():
     print(intro_text)
     option = input("    option: ")
 
-    if option.lower() == "reformat":
+    if option.lower() == "reset":
         print(confirm_text)
         option2 = input("    option: ")
 
