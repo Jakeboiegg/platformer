@@ -38,7 +38,7 @@ def touchingObective(player, objective):
 
 
 def new_score(time):
-    with open("data.json", "r") as file:
+    with open("assets/data.json", "r") as file:
         time_data_raw = json.load(file)
 
         best_minutes = time_data_raw["minutes"]
