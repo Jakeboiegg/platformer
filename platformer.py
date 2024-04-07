@@ -83,15 +83,17 @@ def format_time(time):  # closed
     return time_formatted
 
 
-def end_text_generator(time):  # closed
+def end_text_generator(time, best_time_check):  # closed
     seconds = time // 60
-    if seconds <= 30:
+    if best_time_check:
+        ans = "new best time!!1!!1"
+    elif seconds <= 50:
         ans = random.choice(["wowwowowo soo cool", "too fast."])
-    elif 30 < seconds <= 45:
+    elif 50 < seconds <= 75:
         ans = random.choice(["kinda mid tho", "meh.", "its okay ig", "nah id win"])
-    elif 45 < seconds <= 60:
+    elif 75 < seconds <= 90:
         ans = random.choice(["slowing down", "bad run?"])
-    elif 60 < seconds <= 120:
+    elif 90 < seconds <= 120:
         ans = random.choice(
             [
                 "kinda a jake timing there",
@@ -272,7 +274,7 @@ def main():
 
         # set end message when at end screen
         if check.is_end(level, levels) and end_text is None:
-            end_text = end_text_generator(time)
+            end_text = end_text_generator(time, check.new_score(time))
 
         # write score is new best score
         if check.is_end(level, levels):
