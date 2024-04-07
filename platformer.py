@@ -1,5 +1,6 @@
 import pygame
 import random
+import json
 from assets.classes import (
     Screen,
     Colour,
@@ -101,6 +102,57 @@ def end_text_generator(time):  # closed
     else:
         ans = random.choice(["think you broke my timer :("])
     return ans
+
+
+def update_best_time(time):
+    with open("assets/data.json", "r") as file:
+        time_data_raw = json.load(file)
+
+    if time_data_raw["time_set"]:
+        best_minutes = time_data_raw["minutes"]
+        best_seconds = time_data_raw["seconds"]
+        best_milliseconds = time_data_raw["milliseconds"]
+        best_milliseconds = int(best_milliseconds)
+        best_time = (
+            (best_minutes * 60 * 60)
+            + (best_seconds * 60)
+            + (best_milliseconds // (100 / 60))
+        )
+
+        if time < best_time:
+            current_minutes = time // 3600
+            current_seconds = (time // 60) - (current_minutes * 60)
+            current_milliseconds = (
+                (time // (60 / 100))
+                - (current_seconds * 100)
+                - (current_minutes * 60 * 100)
+            )
+            current_milliseconds = int(current_milliseconds)
+
+            time_data_raw["minutes"] = current_minutes
+            time_data_raw["seconds"] = current_seconds
+            time_data_raw["milliseconds"] = current_milliseconds
+
+            with open("assets/data.json", "w") as file:
+                json.dump(time_data_raw, file)
+
+    elif not time_data_raw["time_set"]:
+        current_minutes = time // 3600
+        current_seconds = (time // 60) - (current_minutes * 60)
+        current_milliseconds = (
+            (time // (60 / 100))
+            - (current_seconds * 100)
+            - (current_minutes * 60 * 100)
+        )
+        current_milliseconds = int(current_milliseconds)
+
+        time_data_raw["minutes"] = current_minutes
+        time_data_raw["seconds"] = current_seconds
+        time_data_raw["milliseconds"] = current_milliseconds
+        time_data_raw["time_set"] = True
+
+        with open("assets/data.json", "w") as file:
+            json.dump(time_data_raw, file)
 
 
 def init_game_elements(format):  # not closed
@@ -221,6 +273,10 @@ def main():
         # set end message when at end screen
         if check.is_end(level, levels) and end_text is None:
             end_text = end_text_generator(time)
+
+        # write score is new best score
+        if check.is_end(level, levels):
+            update_best_time(time)
 
         updateScreen()
 

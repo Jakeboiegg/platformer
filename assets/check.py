@@ -1,4 +1,5 @@
 import pygame
+import json
 
 
 def onFloor(player, floor, screen_dimensions):
@@ -34,6 +35,27 @@ def touchingObective(player, objective):
         return True
     else:
         return False
+
+
+def new_score(time):
+    with open("data.json", "r") as file:
+        time_data_raw = json.load(file)
+
+        best_minutes = time_data_raw["minutes"]
+        best_seconds = time_data_raw["seconds"]
+        best_milliseconds = time_data_raw["milliseconds"]
+        best_milliseconds = int(best_milliseconds)
+
+        best_time = (
+            (best_minutes * 60 * 60)
+            + (best_seconds * 60)
+            + (best_milliseconds // (100 / 60))
+        )
+
+        if time < best_time:
+            return True
+        else:
+            return False
 
 
 def is_end(level, levels):
