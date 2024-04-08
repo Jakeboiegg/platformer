@@ -39,7 +39,7 @@ def end_time(screen, time_formatted):
         time_surface,
         (
             (screen_dimensions.width / 2) - (time_width / 2),
-            (screen_dimensions.height / 2) - (time_height / 2) - (30),
+            (screen_dimensions.height / 2) - (time_height / 2) - (20),
         ),
     )
 
@@ -51,6 +51,18 @@ def end_text(screen, text):
         text_surface,
         (
             (screen_dimensions.width / 2) - (text_width / 2),
-            (screen_dimensions.height / 2) - (text_height / 2) + (50),
+            (screen_dimensions.height / 2) - (text_height / 2) + (60),
+        ),
+    )
+
+
+def best_time(screen, text):
+    text_surface = font.endscreen_best_time.render(text, True, colour.time_text)
+    text_width, text_height = text_surface.get_size()
+    screen.blit(
+        text_surface,
+        (
+            (screen_dimensions.width / 2) - (text_width / 2),
+            (screen_dimensions.height / 2) - (text_height / 2) - (90),
         ),
     )

@@ -43,7 +43,13 @@ def main():
 
 
 def reformat():
-    reset_data = {"time_set": False, "minutes": 0, "seconds": 0, "milliseconds": 0}
+    reset_data = {
+        "time_set": False,
+        "minutes": 0,
+        "seconds": 0,
+        "milliseconds": 0,
+        "frames_elapsed": 0,
+    }
     with open("data.json", "w") as file:
         json.dump(reset_data, file)
 

@@ -111,15 +111,7 @@ def update_best_time(time):
         time_data_raw = json.load(file)
 
     if time_data_raw["time_set"]:
-        best_minutes = time_data_raw["minutes"]
-        best_seconds = time_data_raw["seconds"]
-        best_milliseconds = time_data_raw["milliseconds"]
-        best_milliseconds = int(best_milliseconds)
-        best_time = (
-            (best_minutes * 60 * 60)
-            + (best_seconds * 60)
-            + (best_milliseconds // (100 / 60))
-        )
+        best_time = time_data_raw["frames_elapsed"]
 
         if time < best_time:
             current_minutes = time // 3600
@@ -134,6 +126,7 @@ def update_best_time(time):
             time_data_raw["minutes"] = current_minutes
             time_data_raw["seconds"] = current_seconds
             time_data_raw["milliseconds"] = current_milliseconds
+            time_data_raw["frames_elapsed"] = time
 
             with open("assets/data.json", "w") as file:
                 json.dump(time_data_raw, file)
@@ -151,6 +144,7 @@ def update_best_time(time):
         time_data_raw["minutes"] = current_minutes
         time_data_raw["seconds"] = current_seconds
         time_data_raw["milliseconds"] = current_milliseconds
+        time_data_raw["frames_elapsed"] = time
         time_data_raw["time_set"] = True
 
         with open("assets/data.json", "w") as file:
@@ -179,6 +173,13 @@ def updateScreen():  # not closed
         time_formatted = format_time(time)
         draw.end_time(screen, time_formatted)
         draw.end_text(screen, end_text)
+
+        if not check.new_score(time):
+            with open("assets/data.json", "r") as file:
+                time_data_raw = json.load(file)
+
+            best_time_formatted = format_time(time_data_raw["frames_elapsed"])
+            draw.best_time(screen, f"Best time: {best_time_formatted}")
 
     floor.draw(screen, screen_dimensions, colour)
     objective.draw(screen, levels[level]["image"], colour)

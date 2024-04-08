@@ -306,3 +306,4 @@ class Font:
 
         self.endscreen_text = pygame.font.Font("assets/Rubik.ttf", 50)
         self.endscreen_time = pygame.font.Font("assets/Rubik.ttf", 100)
+        self.endscreen_best_time = pygame.font.Font("assets/Rubik.ttf", 20)
