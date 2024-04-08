@@ -184,12 +184,11 @@ def updateScreen():  # not closed
         draw.end_time(screen, time_formatted)
         draw.end_text(screen, end_text)
 
-        if not check.new_score(time):
-            with open("assets/data.json", "r") as file:
-                time_data_raw = json.load(file)
+        with open("assets/data.json", "r") as file:
+            time_data_raw = json.load(file)
 
-            best_time_formatted = format_time(time_data_raw["frames_elapsed"])
-            draw.best_time(screen, f"Best time: {best_time_formatted}")
+        best_time_formatted = format_time(time_data_raw["frames_elapsed"])
+        draw.best_time(screen, f"Best time: {best_time_formatted}")
 
     floor.draw(screen, screen_dimensions, colour)
     objective.draw(screen, levels[level]["image"], colour)
