@@ -1,6 +1,7 @@
 import pygame
 import random
 import json
+import math
 from assets.classes import (
     Screen,
     Colour,
@@ -220,8 +221,8 @@ def main():
             keys[pygame.K_SPACE]
             and not player.is_jump
             and (
-                check.onFloor(player, floor, screen_dimensions)
-                or check.onPlatform(platforms, player)
+                check.onFloor(player.y, player, floor, screen_dimensions)
+                or check.onPlatform(player.x, player.y, player, platforms)
             )
         ):
             player.is_jump = True
@@ -234,14 +235,37 @@ def main():
 
         # left-right movement
         if keys[pygame.K_LEFT]:
-            player.move("left", short, screen_dimensions)
+            player.set_velocity("left", short)
         elif keys[pygame.K_RIGHT]:
-            player.move("right", short, screen_dimensions)
+            player.set_velocity("right", short)
         else:
-            player.move("no_input", short, screen_dimensions)
+            player.set_velocity("no_input", short)
 
-        player.floorCollision(floor, screen_dimensions)
-        player.platformCollision(platforms)
+        number_of_steps = max(abs(player.x_velocity), abs(player.y_velocity))
+        number_of_steps = int(math.ceil(number_of_steps))
+        step_dx = player.x_velocity / number_of_steps
+        step_dy = player.y_velocity / number_of_steps
+        next_x = player.x
+        next_y = player.y
+        lock_x = False
+        lock_y = False
+
+        for _ in range(number_of_steps):
+            if not lock_x:
+                next_x = player.x + step_dx
+            if not lock_y:
+                next_y = player.y + step_dy
+
+            if check.inFloor(next_y, player, floor, screen_dimensions):
+                lock_y = True
+            elif check.inPlatform(next_x, next_y, player, platforms):
+                lock_x = True
+                lock_y = True
+
+            if not lock_x:
+                player.x = next_x
+            if not lock_y:
+                player.y = next_y
 
         objective.vibrate()
 

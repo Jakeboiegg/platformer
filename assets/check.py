@@ -2,25 +2,49 @@ import pygame
 import json
 
 
-def onFloor(player, floor, screen_dimensions):
-    if player.y + player.height >= screen_dimensions.height - floor.height:
+def onFloor(y, player, floor, screen_dimensions):
+    if y + player.height >= screen_dimensions.height - floor.height:
         return True
     else:
         return False
 
 
-def onPlatform(platforms, player):
+def inFloor(y, player, floor, screen_dimensions):
+    if y + player.height > screen_dimensions.height - floor.height:
+        return True
+    else:
+        return False
+
+
+def onPlatform(x, y, player, platforms):
     for platform in platforms:
-        player_left = player.x
-        player_right = player.x + player.width
+        player_left = x
+        player_right = x + player.width
         platform_left = platform.x
         platform_right = platform.x + platform.width
         platform_top = platform.y
-        player_bottom = player.y + player.height
+        player_bottom = y + player.height
         if (
             platform_top <= player_bottom <= platform_top + player.gravity
             and player_left <= platform_right
             and player_right >= platform_left
+        ):
+            return True
+    return False
+
+
+def inPlatform(x, y, player, platforms):
+    for platform in platforms:
+        player_left = x
+        player_right = x + player.width
+        platform_left = platform.x
+        platform_right = platform.x + platform.width
+        platform_top = platform.y
+        player_bottom = y + player.height
+        if (
+            platform_top < player_bottom <= platform_top + player.gravity
+            and player_left < platform_right
+            and player_right > platform_left
         ):
             return True
     return False

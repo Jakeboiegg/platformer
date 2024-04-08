@@ -69,7 +69,8 @@ class Player:
         self.bottom = {"x": self.x + (self.width / 2), "y": self.y + self.height}
 
         self.acceleration = 0.5
-        self.velocity = 0
+        self.x_velocity = 0
+        self.y_velocity = 0
         self.speed_decay = 1
         self.max_speed = 12
         self.gravity = 14
@@ -83,11 +84,11 @@ class Player:
 
     def draw(self, short, screen, images):
         facing = "idle"
-        if self.velocity == 0:
+        if self.x_velocity == 0:
             facing = "idle"
-        elif self.velocity < 0:
+        elif self.x_velocity < 0:
             facing = "left"
-        elif self.velocity > 0:
+        elif self.x_velocity > 0:
             facing = "right"
 
         image = images.idle
@@ -118,7 +119,7 @@ class Player:
         rect = pygame.rect.Rect((self.x, self.y, self.width, self.height))
         screen.blit(image, rect)
 
-    def move(self, direction, short, screen_dimensions):
+    def set_velocity(self, direction, short):
         self.bottom = {
             "x": self.x + (self.width / 2),
             "y": self.y + self.height,
@@ -126,83 +127,66 @@ class Player:
 
         # move left / right
         if direction == "left" and not short:
-            self.velocity -= self.acceleration
+            self.x_velocity -= self.acceleration
 
         elif direction == "right" and not short:
-            self.velocity += self.acceleration
+            self.x_velocity += self.acceleration
 
         elif (
-            direction == "left" and short and self.velocity >= self.short_max_speed * -1
+            direction == "left"
+            and short
+            and self.x_velocity >= self.short_max_speed * -1
         ):
-            self.velocity -= self.short_acceleration
-            if self.velocity < self.short_max_speed * -1:
-                self.velocity = self.short_max_speed * -1
+            self.x_velocity -= self.short_acceleration
+            if self.x_velocity < self.short_max_speed * -1:
+                self.x_velocity = self.short_max_speed * -1
 
-        elif direction == "right" and short and self.velocity <= self.short_max_speed:
-            self.velocity += self.short_acceleration
-            if self.velocity > self.short_max_speed:
-                self.velocity = self.short_max_speed
+        elif direction == "right" and short and self.x_velocity <= self.short_max_speed:
+            self.x_velocity += self.short_acceleration
+            if self.x_velocity > self.short_max_speed:
+                self.x_velocity = self.short_max_speed
 
         else:
             # speed_decay when no input
-            if self.velocity > 0:
-                if (self.velocity - self.speed_decay) < 0:
-                    self.velocity = 0
+            if self.x_velocity > 0:
+                if (self.x_velocity - self.speed_decay) < 0:
+                    self.x_velocity = 0
                 else:
-                    self.velocity -= self.speed_decay
+                    self.x_velocity -= self.speed_decay
 
-            if self.velocity < 0:
-                if (self.velocity + self.speed_decay) > 0:
-                    self.velocity = 0
+            if self.x_velocity < 0:
+                if (self.x_velocity + self.speed_decay) > 0:
+                    self.x_velocity = 0
                 else:
-                    self.velocity += self.speed_decay
+                    self.x_velocity += self.speed_decay
+
+        # gravity
+        self.y_velocity = self.gravity
 
         # jummping
         if self.is_jump:
-            self.y -= self.jump_power
+            self.y_velocity -= self.jump_power
             self.jump_count += 1
             if self.jump_count == 9:
                 self.is_jump = False
                 self.jump_count = 0
 
         # set the max speed
-        if self.velocity > self.max_speed:
-            self.velocity = self.max_speed
-        if self.velocity < self.max_speed * -1:
-            self.velocity = self.max_speed * -1
+        if self.x_velocity > self.max_speed:
+            self.x_velocity = self.max_speed
+        if self.x_velocity < self.max_speed * -1:
+            self.x_velocity = self.max_speed * -1
 
         # update self position
-        self.x += self.velocity
+        # self.x += self.x_velocity
 
         # keep in window
-        if self.x < 0:
-            self.x = 0
-            self.velocity = 0
-        if self.x > screen_dimensions.width - self.width:
-            self.x = screen_dimensions.width - self.width
-            self.velocity = 0
-
-        # gravity
-        self.y += self.gravity
-
-    def floorCollision(self, floor, screen_dimensions):
-        if check.onFloor(self, floor, screen_dimensions):
-            self.y = screen_dimensions.height - floor.height - self.height
-
-    def platformCollision(self, platforms):
-        for platform in platforms:
-            self_left = self.x
-            self_right = self.x + self.width
-            platform_left = platform.x
-            platform_right = platform.x + platform.width
-            platform_top = platform.y
-            self_bottom = self.y + self.height
-            if (
-                platform_top <= self_bottom <= platform_top + self.gravity
-                and self_left <= platform_right
-                and self_right >= platform_left
-            ):
-                self.y = platform.y - self.height
+        # if self.x < 0:
+        #     self.x = 0
+        #     self.x_velocity = 0
+        # if self.x > screen_dimensions.width - self.width:
+        #     self.x = screen_dimensions.width - self.width
+        #     self.x_velocity = 0
 
     def init_position(self, format):
         o_count = 0
