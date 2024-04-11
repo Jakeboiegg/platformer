@@ -252,9 +252,9 @@ def main():
 
         for _ in range(number_of_steps):
             if not lock_x:
-                next_x = int(math.ceil(player.x + step_dx))
+                next_x = player.x + step_dx
             if not lock_y:
-                next_y = int(math.ceil(player.y + step_dy))
+                next_y = player.y + step_dy
 
             if check.inFloor(next_y, player, floor, screen_dimensions):
                 lock_y = True
@@ -267,6 +267,17 @@ def main():
                 player.x = next_x
             if not lock_y:
                 player.y = next_y
+
+        if (
+            (screen_dimensions.height - floor.height - 10)
+            <= player.y + player.height
+            <= (screen_dimensions.height - floor.height + 10)
+        ):
+            player.y = screen_dimensions.height - floor.height - player.height
+
+        print(
+            f"{screen_dimensions.height - floor.height - (player.y + player.height)}, {(screen_dimensions.height - floor.height - 10) <= player.y + player.height <= (screen_dimensions.height - floor.height + 10)}"
+        )
 
         objective.vibrate()
 
