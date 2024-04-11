@@ -68,9 +68,9 @@ class Player:
 
         self.bottom = {"x": self.x + (self.width / 2), "y": self.y + self.height}
 
-        self.acceleration = 0.5
+        self.acceleration = 0.5  # change this (default is 0.5)
         self.velocity = 0
-        self.speed_decay = 1
+        self.speed_decay = 1  # change this (default is 1)
         self.max_speed = 12
         self.gravity = 14
 
