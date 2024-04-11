@@ -40,9 +40,13 @@ def inPlatform(x, y, player, platforms):
         platform_left = platform.x
         platform_right = platform.x + platform.width
         platform_top = platform.y
+        player_top = y
         player_bottom = y + player.height
         if (
-            platform_top < player_bottom <= platform_top + player.gravity
+            (
+                platform_top < player_bottom < platform_top + player.gravity
+                or platform_top < player_top < platform_top + player.gravity
+            )
             and player_left < platform_right
             and player_right > platform_left
         ):

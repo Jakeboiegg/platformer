@@ -252,14 +252,15 @@ def main():
 
         for _ in range(number_of_steps):
             if not lock_x:
-                next_x = player.x + step_dx
+                next_x = int(math.ceil(player.x + step_dx))
             if not lock_y:
-                next_y = player.y + step_dy
+                next_y = int(math.ceil(player.y + step_dy))
 
             if check.inFloor(next_y, player, floor, screen_dimensions):
                 lock_y = True
-            elif check.inPlatform(next_x, next_y, player, platforms):
+            if check.inPlatform(next_x, player.y, player, platforms):
                 lock_x = True
+            if check.inPlatform(player.x, next_y, player, platforms):
                 lock_y = True
 
             if not lock_x:

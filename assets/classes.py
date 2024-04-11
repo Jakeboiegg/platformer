@@ -1,6 +1,5 @@
 import pygame
 import math
-from assets import check
 
 pygame.init()
 
