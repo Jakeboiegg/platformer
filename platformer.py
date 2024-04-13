@@ -250,6 +250,7 @@ def main():
         lock_x = False
         lock_y = False
 
+        print(f"{(player.y + player.height) - platforms[-1].y}")
         for _ in range(number_of_steps):
             if not lock_x:
                 next_x = player.x + step_dx
@@ -258,6 +259,8 @@ def main():
 
             if check.inFloor(next_y, player, floor, screen_dimensions):
                 lock_y = True
+                player.is_jump = False
+                player.jump_count = 0
             if check.inPlatform(next_x, player.y, player, platforms):
                 lock_x = True
             if check.inPlatform(player.x, next_y, player, platforms):
@@ -268,16 +271,30 @@ def main():
             if not lock_y:
                 player.y = next_y
 
+        player_top = player.y
+        player_bottom = player.y + player.height
+        player_left = player.x
+        player_right = player.x + player.width
+
+        for platform in platforms:
+            platform_top = platform.y
+            platform_bottom = platform.y + platform.height
+            platform_left = platform.x
+            platform_right = platform.x + platform.width
+            if (platform_left <= player_left <= platform_right) or (
+                platform_left <= player_right <= platform_right
+            ):
+                if platform_top <= player_top <= platform_top - 5:
+                    player.y = platform_top
+
+                if platform_top <= player_bottom <= platform_top - 5:
+                    player.y = platform_bottom - player.height
         if (
             (screen_dimensions.height - floor.height - 10)
             <= player.y + player.height
             <= (screen_dimensions.height - floor.height + 10)
         ):
             player.y = screen_dimensions.height - floor.height - player.height
-
-        print(
-            f"{screen_dimensions.height - floor.height - (player.y + player.height)}, {(screen_dimensions.height - floor.height - 10) <= player.y + player.height <= (screen_dimensions.height - floor.height + 10)}"
-        )
 
         objective.vibrate()
 

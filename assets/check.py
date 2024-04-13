@@ -34,21 +34,23 @@ def onPlatform(x, y, player, platforms):
 
 
 def inPlatform(x, y, player, platforms):
+    player_top = y
+    player_bottom = y + player.height
+    player_left = x
+    player_right = x + player.width
+
     for platform in platforms:
-        player_left = x
-        player_right = x + player.width
+        platform_top = platform.y
+        platform_bottom = platform.y + platform.height
         platform_left = platform.x
         platform_right = platform.x + platform.width
-        platform_top = platform.y
-        player_top = y
-        player_bottom = y + player.height
+
         if (
-            (
-                platform_top < player_bottom < platform_top + player.gravity
-                or platform_top < player_top < platform_top + player.gravity
-            )
-            and player_left < platform_right
-            and player_right > platform_left
+            (platform_top <= player_top <= platform_bottom)
+            or (platform_top <= player_bottom <= platform_bottom)
+        ) and (
+            (platform_left <= player_left <= platform_right)
+            or (platform_left <= player_right <= platform_right)
         ):
             return True
     return False
