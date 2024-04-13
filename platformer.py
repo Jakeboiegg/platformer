@@ -241,6 +241,7 @@ def main():
         else:
             player.set_velocity("no_input", short)
 
+        # step thing init
         number_of_steps = max(abs(player.x_velocity), abs(player.y_velocity))
         number_of_steps = int(math.ceil(number_of_steps))
         step_dx = player.x_velocity / number_of_steps
@@ -250,7 +251,7 @@ def main():
         lock_x = False
         lock_y = False
 
-        print(f"{(player.y + player.height) - platforms[-1].y}")
+        # check for collision in each step
         for _ in range(number_of_steps):
             if not lock_x:
                 next_x = player.x + step_dx
@@ -259,42 +260,52 @@ def main():
 
             if check.inFloor(next_y, player, floor, screen_dimensions):
                 lock_y = True
-                player.is_jump = False
-                player.jump_count = 0
             if check.inPlatform(next_x, player.y, player, platforms):
                 lock_x = True
             if check.inPlatform(player.x, next_y, player, platforms):
                 lock_y = True
+
+            if lock_y:
+                player.is_jump = False
+                player.jump_count = 0
 
             if not lock_x:
                 player.x = next_x
             if not lock_y:
                 player.y = next_y
 
-        player_top = player.y
-        player_bottom = player.y + player.height
-        player_left = player.x
-        player_right = player.x + player.width
-
-        for platform in platforms:
-            platform_top = platform.y
-            platform_bottom = platform.y + platform.height
-            platform_left = platform.x
-            platform_right = platform.x + platform.width
-            if (platform_left <= player_left <= platform_right) or (
-                platform_left <= player_right <= platform_right
-            ):
-                if platform_top <= player_top <= platform_top - 5:
-                    player.y = platform_top
-
-                if platform_top <= player_bottom <= platform_top - 5:
-                    player.y = platform_bottom - player.height
+        # stick player onto floor and platform due to rounding error
         if (
             (screen_dimensions.height - floor.height - 10)
             <= player.y + player.height
             <= (screen_dimensions.height - floor.height + 10)
         ):
             player.y = screen_dimensions.height - floor.height - player.height
+
+        for platform in platforms:
+            platform_left = platform.x
+            platform_right = platform.x + platform.width
+            platform_top = platform.y
+
+            player_left = player.x
+            player_right = player.x + player.width
+            player_bottom = player.y + player.height
+
+            if (
+                (player_left <= platform_right)
+                and (player_right >= platform_left)
+                and (platform_top - 10 <= player_bottom <= platform_top)
+            ):
+                player.y = platform_top - player.height
+
+        # bind player within left and right of screen
+        if player.x < 0:
+            player.x = 0
+            player.x_velocity = 0
+
+        if player.x + player.width > screen_dimensions.width:
+            player.x = screen_dimensions.width - player.width
+            player.x_velocity = 0
 
         objective.vibrate()
 

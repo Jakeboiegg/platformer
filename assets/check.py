@@ -45,13 +45,10 @@ def inPlatform(x, y, player, platforms):
         platform_left = platform.x
         platform_right = platform.x + platform.width
 
-        if (
-            (platform_top <= player_top <= platform_bottom)
-            or (platform_top <= player_bottom <= platform_bottom)
-        ) and (
-            (platform_left <= player_left <= platform_right)
-            or (platform_left <= player_right <= platform_right)
-        ):
+        x_overlap = (player_left <= platform_right) and (player_right >= platform_left)
+        y_overlop = (player_top <= platform_bottom) and (player_bottom > platform_top)
+
+        if x_overlap and y_overlop:
             return True
     return False
 
