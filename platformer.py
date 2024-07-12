@@ -31,7 +31,7 @@ font = Font()
 clock = pygame.time.Clock()
 FPS = 60
 
-level = 1
+level = 12
 change_level = False
 
 time = 0
